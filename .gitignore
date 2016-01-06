@@ -1,0 +1,17 @@
+*.prefs
+*~
+*swp
+.buildpath
+._.DS_Store
+.DS_Store
+.project
+.settings
+docs/.*.m
+**/xcuserdata
+**/PHPUnit_Extensions_Story_TestCase.php
+.settings/*
+.idea
+node_modules
+bower.json
+gulpfile.js
+/nbproject/*
