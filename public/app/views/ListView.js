@@ -166,9 +166,12 @@ var ListView = React.createClass({
         var data = {
             _id:id
         };
+
         c360.server.jsonpInterface('delChannel',data,function(res){
             if(res.status == 200){
-                MainAction.showAlert('Success','删除渠道成功!',true);
+                MainAction.showAlert('Success','删除渠道成功!',true,function(){
+                    MainAction.getTemplateList(PageStore.pageObject.currentPageIndex,this.initTemplateList);
+                }.bind(this));
             }else{
                 MainAction.showAlert('Error',res.message,true);
             }
