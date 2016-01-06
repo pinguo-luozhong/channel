@@ -367,6 +367,10 @@ input[type="radio"], input[type="checkbox"] {
   content: "\e003";
 }
 
+.glyphicon-info-sign:before {
+  content: "\e086";
+}
+
 .glyphicon-trash:before{
   content:"\e020"
 }
