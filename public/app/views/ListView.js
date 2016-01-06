@@ -38,9 +38,11 @@ var ListView = React.createClass({
             for (var key in tableHead) {
                 var width = "auto";
                 if(tableHead[key] == '截图'){
-                    width = 200;
-                }else if(tableHead[key] == '状态'){
                     width = 300;
+                }else if(tableHead[key] == '状态'){
+                    width = 450;
+                }else if(tableHead[key] == '标题'){
+                    width = 100;
                 }
                 tempArr.push(<th key={"stickerTableHead"+key} style={{width:width}}>
                                 <div>{tableHead[key]}</div>
@@ -67,14 +69,14 @@ var ListView = React.createClass({
             array.push(imageArray);
             array.push(<div>
                     <span className="flag-top">
-                        <span className="flag-style version"><img style={{width:"30px"}} src={tableArray[i].icon}/>{tableArray[i].versionFlag}</span>
-                        <span className="flag-style desc"><img style={{width:"30px"}} src={tableArray[i].icon}/>{tableArray[i].descFlag}</span>
-                        <span className="flag-style time"><img style={{width:"30px"}} src={tableArray[i].icon}/>数据抓取时间:{tableArray[i].time}</span>
+                        <span className="flag-style version"><span className="glyphicon glyphicon-info-sign"></span>版本太低</span>
+                        <span className="flag-style desc"><span className="glyphicon glyphicon-info-sign"></span>描述过期</span>
+                        <span className="flag-style time"><span className="glyphicon glyphicon-info-sign"></span>数据抓取时间:2015/12/26</span>
                     </span>
                     <span className="flag-bottom">
-                        <span className="flag-style icon"><img style={{width:"30px"}} src={tableArray[i].icon}/>{tableArray[i].iconFlag}</span>
-                        <span className="flag-style screenshot"><img style={{width:"30px"}} src={tableArray[i].icon}/>{tableArray[i].screenshotFlag}</span>
-                        <span className="flag-style channel"><img style={{width:"30px"}} src={tableArray[i].icon}/>{tableArray[i].channelFlag}</span>
+                        <span className="flag-style icon"><span className="glyphicon glyphicon-info-sign"></span>图标过期</span>
+                        <span className="flag-style screenshot"><span className="glyphicon glyphicon-info-sign"></span>截图过期</span>
+                        <span className="flag-style channel"><span className="glyphicon glyphicon-info-sign"></span>渠道更新时间过期</span>
                     </span>
                 </div>);
             var listArray = [{
@@ -98,7 +100,7 @@ var ListView = React.createClass({
                 }];
             array.push(<a onClick={this.handleEditAlertEvent.bind(null,tableArray[i]._id,tableArray[i].title,listArray)} style={{cursor:"pointer"}}>编辑告警状态</a>);
             array.push(<a onClick={this.handleShowMatchEvent.bind(null,tableArray[i]._id)} style={{cursor:"pointer"}}>查看匹配规则</a>);
-            array.push(<a onClick={this.del.bind(null,tableArray[i]._id)} style={{cursor:"pointer"}}>删除</a>);
+            array.push(<a onClick={this.handleDeleteEvent.bind(null,tableArray[i]._id)} style={{cursor:"pointer"}}>删除</a>);
             tableContent.push(array);
         }
 
@@ -156,21 +158,20 @@ var ListView = React.createClass({
         MainAction.showAlert(id,title,array);
     },
 
-    del:function(id){
+    handleDeleteEvent:function(id){
+        MainAction.showConfirm('温馨提示','是否删除',true,this.handleDelEvent.bind(this,id));
+    },
+
+    handleDelEvent:function(id){
         var data = {
             _id:id
         };
-
         c360.server.jsonpInterface('delChannel',data,function(res){
-            console.log(res);
             if(res.status == 200){
                 MainAction.showAlert('Success','删除渠道成功!',true);
             }else{
                 MainAction.showAlert('Error',res.message,true);
             }
-            //this.pageObject.list = res.data;
-            //this.trigger(this.pageObject);
-            //if ($.isFunction(callback)) callback(res.total);
         }.bind(this),'GET');
     }
 });
