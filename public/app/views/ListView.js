@@ -40,7 +40,7 @@ var ListView = React.createClass({
                 if(tableHead[key] == '截图'){
                     width = 300;
                 }else if(tableHead[key] == '状态'){
-                    width = 450;
+                    width = 500;
                 }else if(tableHead[key] == '标题'){
                     width = 100;
                 }
@@ -66,37 +66,46 @@ var ListView = React.createClass({
             for(var j = 0 , len = tableArray[i].imageList.length;j < len;j ++){
                 imageArray.push(<img style={{width:"50px"}} src={tableArray[i].imageList[j]}/>);
             }
+            var versionVal = "版本太低";
+            if(tableArray[i].versionFlag == 1){
+                versionVal = "版本正常";
+            }
+            var descVal = "描述过期";
+            if(tableArray[i].descFlag == 1){
+                var descVal = "描述正常";
+            }
+            var iconVal = "图标过期";
+            if(tableArray[i].iconFlag == 1){
+                iconVal = "图标正常";
+            }
+            var screenshotVal = "截图过期";
+            if(tableArray[i].screenshotFlag == 1){
+                screenshotVal = "截图正常";
+            }
             array.push(imageArray);
+            var date = c360.utils.unix2human(tableArray[i].time).date;
             array.push(<div>
                     <span className="flag-top">
-                        <span className="flag-style version"><span className="glyphicon glyphicon-info-sign"></span>版本太低</span>
-                        <span className="flag-style desc"><span className="glyphicon glyphicon-info-sign"></span>描述过期</span>
-                        <span className="flag-style time"><span className="glyphicon glyphicon-info-sign"></span>数据抓取时间:2015/12/26</span>
+                        <span className="flag-style version"><span className="glyphicon glyphicon-info-sign"></span>{versionVal}</span>
+                        <span className="flag-style desc"><span className="glyphicon glyphicon-info-sign"></span>{descVal}</span>
+                        <span className="flag-style time"><span className="glyphicon glyphicon-info-sign"></span>数据抓取时间:{date}</span>
                     </span>
                     <span className="flag-bottom">
-                        <span className="flag-style icon"><span className="glyphicon glyphicon-info-sign"></span>图标过期</span>
-                        <span className="flag-style screenshot"><span className="glyphicon glyphicon-info-sign"></span>截图过期</span>
-                        <span className="flag-style channel"><span className="glyphicon glyphicon-info-sign"></span>渠道更新时间过期</span>
+                        <span className="flag-style icon"><span className="glyphicon glyphicon-info-sign"></span>{iconVal}</span>
+                        <span className="flag-style screenshot"><span className="glyphicon glyphicon-info-sign"></span>{screenshotVal}</span>
+                        <span className="flag-style channel"></span>
                     </span>
                 </div>);
             var listArray = [{
-                    icon:tableArray[i].icon,
-                    flag:tableArray[i].versionFlag
+                    flag:versionVal
                 },{
-                    icon:tableArray[i].icon,
-                    flag:tableArray[i].iconFlag
+                    flag:iconVal
                 },{
-                    icon:tableArray[i].icon,
-                    flag:tableArray[i].descFlag
+                    flag:descVal
                 },{
-                    icon:tableArray[i].icon,
-                    flag:tableArray[i].screenshotFlag
+                    flag:screenshotVal
                 },{
-                    icon:tableArray[i].icon,
-                    flag:'数据抓取时间:'+tableArray[i].time
-                },{
-                    icon:tableArray[i].icon,
-                    flag:tableArray[i].channelFlag
+                    flag:'数据抓取时间:'+date
                 }];
             array.push(<a onClick={this.handleEditAlertEvent.bind(null,tableArray[i]._id,tableArray[i].title,listArray)} style={{cursor:"pointer"}}>编辑告警状态</a>);
             array.push(<a onClick={this.handleShowMatchEvent.bind(null,tableArray[i]._id)} style={{cursor:"pointer"}}>查看匹配规则</a>);
@@ -151,11 +160,11 @@ var ListView = React.createClass({
     },
 
     handleEditAlertEvent:function(id,title,array,event){
-        MainAction.showEditAlert(id,title,array);
+        MainAction.showEditAlert(title,true,array);
     },
 
     handleShowMatchEvent:function(id,title,array){
-        MainAction.showAlert(id,title,array);
+        MainAction.showAlert(title,true,array);
     },
 
     handleDeleteEvent:function(id){
