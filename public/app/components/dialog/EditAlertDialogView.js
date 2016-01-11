@@ -15,10 +15,19 @@ var EditAlertDialogView = React.createClass({
             var tempArr = [];
 
             this.props.pageObject.showEditAlertModel.map(function(item,index){
+
+                var className = "glyphicon glyphicon-info-sign red";
+
+                if(item.flag == 1){
+                    className = "glyphicon glyphicon-info-sign green";
+                }else if(item.flag == 2){
+                    className = "glyphicon glyphicon-info-sign orange";
+                }
+
                 tempArr.push(<div style={{marginTop:"20px"}}>
                     <span style={{display:"inline-block",lineHeight:"30px",float:'left'}}>
-                        <span className="glyphicon glyphicon-info-sign"></span>
-                        <span style={{marginLeft:"10px"}}>{item.flag}</span>
+                        <span className={className}></span>
+                        <span style={{marginLeft:"10px"}}>{item.value}</span>
                     </span>
                     <a className="bottun4 relative" onClick={this.handleChannelEvent} style={{margin:"0px 0px 0px 22px"}}>
                         <div><span>警告忽略</span></div>

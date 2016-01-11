@@ -95,6 +95,24 @@ var ListView = React.createClass({
                 screenshotVal = "截图正常";
             }
             var date = c360.utils.unix2human(tableArray[i].time).date;
+
+            var listArray = [{
+                flag:tableArray[i].versionFlag,
+                value:versionVal
+            },{
+                flag:tableArray[i].iconFlag,
+                value:iconVal
+            },{
+                flag:tableArray[i].descFlag,
+                value:descVal
+            },{
+                flag:tableArray[i].screenshotFlag,
+                value:screenshotVal
+            },{
+                flag:2,
+                value:'数据抓取时间:'+date
+            }];
+
             array.push(<div>
                     <span className="flag-top">
                         <span className="flag-style version"><span className={tableArray[i].versionFlag == 1?"glyphicon glyphicon-info-sign green":"glyphicon glyphicon-info-sign red"}></span>{versionVal}</span>
@@ -106,22 +124,11 @@ var ListView = React.createClass({
                         <span className="flag-style screenshot"><span className="glyphicon glyphicon-info-sign green"></span>{screenshotVal}</span>
                         <span className="flag-style channel">
                             <a onClick={this.handleEditAlertEvent.bind(null,tableArray[i]._id,tableArray[i].title,listArray)} style={{cursor:"pointer"}}>编辑告警状态</a>
-                            <a onClick={this.handleShowMatchEvent.bind(null,tableArray[i]._id)} style={{cursor:"pointer",marginLeft:"10px"}}>查看匹配规则</a>
+                            <a onClick={this.handleShowMatchEvent.bind(null,tableArray[i]._id,'查看匹配规则')} style={{cursor:"pointer",marginLeft:"10px"}}>查看匹配规则</a>
                             <a onClick={this.handleDeleteEvent.bind(null,tableArray[i]._id)} style={{cursor:"pointer",marginLeft:"10px"}}>删除</a>
                         </span>
                     </span>
                 </div>);
-            var listArray = [{
-                    flag:versionVal
-                },{
-                    flag:iconVal
-                },{
-                    flag:descVal
-                },{
-                    flag:screenshotVal
-                },{
-                    flag:'数据抓取时间:'+date
-                }];
             tableContent.push(array);
         }
 
@@ -176,7 +183,7 @@ var ListView = React.createClass({
     },
 
     handleShowMatchEvent:function(id,title,array){
-        MainAction.showAlert(title,true,array);
+        MainAction.showAlert(title,'',true);
     },
 
     handleDeleteEvent:function(id){
