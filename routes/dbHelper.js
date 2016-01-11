@@ -51,9 +51,12 @@ var insertData = function (p, callback) {
             desc:p.desc,
             title:p.title,
             domObj:p.domObj,
+            versionFlag: 1,
+            descFlag: 1,
+            iconFlag: 1,
+            screenshotFlag: 1,
             time:p.time
         };
-        console.log(data);
         collection.findOne({channelName: p.channelName}, function (error, doc) {
             if (error) {
                 res.send(500);
@@ -83,6 +86,10 @@ var insertData = function (p, callback) {
 var getChannelList = function (data,callback) {
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(table);
+        if(!collection){
+            console.log("链接失败");
+            return;
+        }
         var skip = parseInt(data.skip);
         var limit = parseInt(data.limit);
         collection.find({}).skip(skip).limit(limit).toArray(function (error, doc) {

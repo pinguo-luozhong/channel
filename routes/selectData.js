@@ -10,7 +10,7 @@ var getChannelList = require("./dbHelper").getChannelList;
 var updateChannelStatus = require("./dbHelper").updateChannelStatus;
 
 //获取数据
-var getData = function(){
+var getData = function () {
     var data = {
         skip: "",
         limit: ""
@@ -54,7 +54,7 @@ var params = {
     descStatus: 1,
     iconStatus: 1,
     screenshotStatus: 1,
-    time:new Date().getTime()
+    time: new Date().getTime()
 };
 var checkEle = function (ele, res, everyObj) {
     var version = everyObj.version;
@@ -63,13 +63,18 @@ var checkEle = function (ele, res, everyObj) {
     if (ele == "descContain") {
         if (res != desc) {
             params.descStatus = 0;
+        } else {
+            params.descStatus = 1;
         }
     }
     if (ele == "versionContain") {
         res = res.replace(/[^0-9]/ig, "");
         res = res.split("").join(".");
-        if (version-0 != res-0) {
+        console.log(version - res);
+        if (version - res != 0) {
             params.versionStatus = 0;
+        } else {
+            params.versionStatus = 1;
         }
     }
     return params;
@@ -113,7 +118,8 @@ var searchDom = function (html, everyObj) {
                 statusParams = checkEle(i, resText, everyObj);
             }
         });
-    };
+    }
+    ;
 
     statusParams._id = id;
     updateChannelStatus(statusParams, function () {
@@ -132,7 +138,7 @@ var searchFuc = function (obj) {
 };
 
 module.exports = {
-    startSearch:getData
+    startSearch: getData
 };
 
 
