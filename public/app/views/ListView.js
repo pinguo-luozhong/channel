@@ -141,7 +141,7 @@ var ListView = React.createClass({
                 var arr = [];
 
                 for(var key in tableContent[i]){
-                    arr.push(<td><div>{tableContent[i][key]}</div></td>);
+                    arr.push(<td><div style={{display:"inline-block",margin:"auto"}}>{tableContent[i][key]}</div></td>);
                 }
 
                 tempArr.push(<tr className={i%2 == 0?"even":""}>
