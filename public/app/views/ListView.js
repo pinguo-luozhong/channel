@@ -29,7 +29,7 @@ var ListView = React.createClass({
 
     render:function(){
 
-        var tableHead = ['序号','标题','图标','版本号','截图','状态','','',""];
+        var tableHead = ['信息','截图','状态'];
 
         var tableHeadArr = (function() {
             var tempArr = [];
@@ -37,11 +37,9 @@ var ListView = React.createClass({
             for (var key in tableHead) {
                 var width = "auto";
                 if(tableHead[key] == '截图'){
-                    width = 300;
+                    width = 350;
                 }else if(tableHead[key] == '状态'){
                     width = 500;
-                }else if(tableHead[key] == '标题'){
-                    width = 100;
                 }
                 tempArr.push(<th key={"stickerTableHead"+key} style={{width:width}}>
                                 <div>{tableHead[key]}</div>
@@ -59,13 +57,27 @@ var ListView = React.createClass({
         }
 
         var tableContent = [];
-        console.log(tableArray);
+
         for(var i = 0 ,length = tableArray.length;i < length;i ++){
-            var array = [i+1,tableArray[i].title,<img style={{width:"50px"}} src={tableArray[i].icon}/>,tableArray[i].version];
+            var array = [];
+
+            array.push(<div style={{textAlign:"left"}}>
+                    <a style={{cursor:"pointer"}} href={tableArray[i].channelUrl} target="_blank">{tableArray[i].title}</a>
+                    <span style={{display:"inline-block",width:'100%',lineHeight:"30px"}}>
+                        <img style={{width:"30px"}} src={tableArray[i].icon}/>
+                        <span style={{fontSize:"18px",marginLeft:"50px"}} className={tableArray[i].versionFlag == 1?"green":"red"}>{tableArray[i].version}</span>
+                    </span>
+                </div>);
+
             var imageArray = [];
-            for(var j = 0 , len = tableArray[i].imageList.length;j < len;j ++){
-                imageArray.push(<img style={{width:"50px"}} src={tableArray[i].imageList[j]}/>);
+            for(var j = 0 , len = 6;j < len;j ++){
+                if(tableArray[i].imageList[j] == undefined){
+                    imageArray.push(<img style={{width:"50px"}} src='../resource/images/icon-default.jpg'/>);
+                }else{
+                    imageArray.push(<img style={{width:"50px"}} src={tableArray[i].imageList[j]}/>);
+                }
             }
+            array.push(imageArray);
             var versionVal = "版本太低";
             if(tableArray[i].versionFlag == 1){
                 versionVal = "版本正常";
@@ -82,18 +94,21 @@ var ListView = React.createClass({
             if(tableArray[i].screenshotFlag == 1){
                 screenshotVal = "截图正常";
             }
-            array.push(imageArray);
             var date = c360.utils.unix2human(tableArray[i].time).date;
             array.push(<div>
                     <span className="flag-top">
-                        <span className="flag-style version"><span className="glyphicon glyphicon-info-sign"></span>{versionVal}</span>
-                        <span className="flag-style desc"><span className="glyphicon glyphicon-info-sign"></span>{descVal}</span>
-                        <span className="flag-style time"><span className="glyphicon glyphicon-info-sign"></span>数据抓取时间:{date}</span>
+                        <span className="flag-style version"><span className={tableArray[i].versionFlag == 1?"glyphicon glyphicon-info-sign green":"glyphicon glyphicon-info-sign red"}></span>{versionVal}</span>
+                        <span className="flag-style desc"><span className={tableArray[i].descFlag == 1?"glyphicon glyphicon-info-sign green":"glyphicon glyphicon-info-sign red"}></span>{descVal}</span>
+                        <span className="flag-style time"><span className="glyphicon glyphicon-info-sign orange"></span>数据抓取时间:{date}</span>
                     </span>
                     <span className="flag-bottom">
-                        <span className="flag-style icon"><span className="glyphicon glyphicon-info-sign"></span>{iconVal}</span>
-                        <span className="flag-style screenshot"><span className="glyphicon glyphicon-info-sign"></span>{screenshotVal}</span>
-                        <span className="flag-style channel"></span>
+                        <span className="flag-style icon"><span className="glyphicon glyphicon-info-sign green"></span>{iconVal}</span>
+                        <span className="flag-style screenshot"><span className="glyphicon glyphicon-info-sign green"></span>{screenshotVal}</span>
+                        <span className="flag-style channel">
+                            <a onClick={this.handleEditAlertEvent.bind(null,tableArray[i]._id,tableArray[i].title,listArray)} style={{cursor:"pointer"}}>编辑告警状态</a>
+                            <a onClick={this.handleShowMatchEvent.bind(null,tableArray[i]._id)} style={{cursor:"pointer",marginLeft:"10px"}}>查看匹配规则</a>
+                            <a onClick={this.handleDeleteEvent.bind(null,tableArray[i]._id)} style={{cursor:"pointer",marginLeft:"10px"}}>删除</a>
+                        </span>
                     </span>
                 </div>);
             var listArray = [{
@@ -107,9 +122,6 @@ var ListView = React.createClass({
                 },{
                     flag:'数据抓取时间:'+date
                 }];
-            array.push(<a onClick={this.handleEditAlertEvent.bind(null,tableArray[i]._id,tableArray[i].title,listArray)} style={{cursor:"pointer"}}>编辑告警状态</a>);
-            array.push(<a onClick={this.handleShowMatchEvent.bind(null,tableArray[i]._id)} style={{cursor:"pointer"}}>查看匹配规则</a>);
-            array.push(<a onClick={this.handleDeleteEvent.bind(null,tableArray[i]._id)} style={{cursor:"pointer"}}>删除</a>);
             tableContent.push(array);
         }
 

@@ -359,6 +359,18 @@ input[type="radio"], input[type="checkbox"] {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.red{
+  color:red;
+}
+
+.orange{
+  color:orange;
+}
+
+.green{
+  color:green;
+}
+
 .glyphicon:empty {
   width: 1em;
 }

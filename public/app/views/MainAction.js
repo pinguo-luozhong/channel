@@ -67,9 +67,13 @@ var MainStore = Reflux.createStore({
         };
 
         c360.server.jsonpInterface('getChannelList',data,function(res){
-            this.pageObject.list = res.data;
-            this.trigger(this.pageObject);
-            if ($.isFunction(callback)) callback(res.total);
+            if(res.status == 200){
+                this.pageObject.list = res.data;
+                this.trigger(this.pageObject);
+                if ($.isFunction(callback)) callback(res.total);
+            }else{
+                this.onShowAlert('Error',res.statusText,true);
+            }
         }.bind(this),'GET');
     }
 

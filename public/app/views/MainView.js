@@ -22,6 +22,8 @@ var ConfirmDialogView = require('../components/dialog/ConfirmDialogView.js');
 
 var EditAlertDialogView = require('../components/dialog/EditAlertDialogView.js');
 
+var LoadView = require('../components/load/LoadView.js');
+
 var PageView = require('../components/page/PageView.js');
 
 var NavView = React.createClass({
@@ -34,6 +36,7 @@ var NavView = React.createClass({
 
     render:function(){
         return (<div className="index">
+                <LoadView  />
                 <AlertDialogView {...this.state}/>
                 <ChannelDialogView {...this.state}/>
                 <ConfirmDialogView {...this.state}/>
