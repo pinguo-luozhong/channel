@@ -86,6 +86,7 @@ var insertData = function (p, callback) {
 var getChannelList = function (data,callback) {
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(table);
+        console.log(collection);
         if(!collection){
             console.log("链接失败");
             return;

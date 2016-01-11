@@ -72,9 +72,9 @@ var ListView = React.createClass({
             var imageArray = [];
             for(var j = 0 , len = 6;j < len;j ++){
                 if(tableArray[i].imageList[j] == undefined){
-                    imageArray.push(<img style={{width:"50px"}} src='../resource/images/icon-default.jpg'/>);
+                    imageArray.push(<img style={{width:"50px",marginLeft:"5px"}} src='../resource/images/icon-default.jpg'/>);
                 }else{
-                    imageArray.push(<img style={{width:"50px"}} src={tableArray[i].imageList[j]}/>);
+                    imageArray.push(<img style={{width:"50px",marginLeft:"5px"}} src={tableArray[i].imageList[j]}/>);
                 }
             }
             array.push(imageArray);
