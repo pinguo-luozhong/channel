@@ -1,5 +1,6 @@
 /**
  * Created by luozhong on 15/12/31.
+ * desc：删除渠道接口
  */
 // app：express对象
 module.exports = function (app) {

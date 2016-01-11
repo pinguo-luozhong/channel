@@ -6,4 +6,5 @@
      require('./addChannel')(app);
      require('./getChannelList')(app);
      require('./delChannel')(app);
+     require('./updateStatus')(app);
  };

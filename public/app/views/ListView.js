@@ -32,7 +32,6 @@ var ListView = React.createClass({
         var tableHead = ['序号','标题','图标','版本号','截图','状态','','',""];
 
         var tableHeadArr = (function() {
-
             var tempArr = [];
 
             for (var key in tableHead) {
@@ -60,6 +59,7 @@ var ListView = React.createClass({
         }
 
         var tableContent = [];
+        console.log(tableArray);
         for(var i = 0 ,length = tableArray.length;i < length;i ++){
             var array = [i+1,tableArray[i].title,<img style={{width:"50px"}} src={tableArray[i].icon}/>,tableArray[i].version];
             var imageArray = [];

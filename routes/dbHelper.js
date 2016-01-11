@@ -1,12 +1,41 @@
 /**
  * Created by luozhong on 16/1/3.
+ * desc：数据库操作
  */
 
 var MongoClient = require('mongodb').MongoClient;
 var DB_CONN_STR = 'mongodb://localhost:27017/channel';
-var ObjectID = require('mongodb').ObjectID
+var ObjectID = require('mongodb').ObjectID;
 
 var table = "channel";
+var channelStatus = "channelStatus";
+
+//更改状态表
+var updateStatusTable = function(p,callback){
+    //连接到表
+    MongoClient.connect(DB_CONN_STR, function (err, db) {
+        var collection = db.collection(table);
+        //插入数据
+        var data = {
+            versionFlag: p.versionStatus,
+            descFlag: p.descStatus,
+            iconFlag:p.iconStatus,
+            screenshotFlag:p.screenshotStatus
+        };
+        var whereStr = {_id: new ObjectID(p._id)};
+        collection.update(whereStr,{"$set":data}, function (err, result) {
+            if (err) {
+                console.log('Error:' + err);
+                return;
+            }
+            console.log("更新成功");
+            //console.log("=-----------------------------"+result)
+            db.close();
+            callback(result);
+        });
+    });
+};
+
 //插入数据
 var insertData = function (p, callback) {
     //连接到表
@@ -96,6 +125,7 @@ var delChannel = function (data,callback) {
 module.exports = {
     getChannelList: getChannelList,
     delChannel: delChannel,
+    updateChannelStatus: updateStatusTable,
     insertData: insertData
 };
 
