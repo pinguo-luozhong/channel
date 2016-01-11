@@ -17,7 +17,7 @@ var EditAlertDialogView = React.createClass({
             this.props.pageObject.showEditAlertModel.map(function(item,index){
                 tempArr.push(<div style={{marginTop:"20px"}}>
                     <span style={{display:"inline-block",lineHeight:"30px",float:'left'}}>
-                        <img style={{width:"30px"}} src={item.icon}/>
+                        <span className="glyphicon glyphicon-info-sign"></span>
                         <span style={{marginLeft:"10px"}}>{item.flag}</span>
                     </span>
                     <a className="bottun4 relative" onClick={this.handleChannelEvent} style={{margin:"0px 0px 0px 22px"}}>
@@ -51,6 +51,10 @@ var EditAlertDialogView = React.createClass({
                     </div>
                 </div>
             );
+    },
+
+    handleChannelEvent:function(){
+
     },
 
     handleHideEvent:function(event){

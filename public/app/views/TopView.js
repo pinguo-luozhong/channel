@@ -44,7 +44,13 @@ var TopView = React.createClass({
     },
 
     handleUpdateEvent:function(){
-
+        c360.server.jsonpInterface('updateStatus',{},function(res){
+            if(res.status == 200){
+                MainAction.showAlert('Success','数据更新成功!',true);
+            }else{
+                MainAction.showAlert('Error',res.message,true);
+            }
+        }.bind(this),'GET');
     }
 });
 

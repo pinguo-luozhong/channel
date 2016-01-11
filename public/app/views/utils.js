@@ -28,5 +28,26 @@ c360.utils = {
             }
         }
         return theRequest;
-    }
+    },
+
+    //时间戳转换标准时间
+    unix2human: function (unix) {
+        var monthUs = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var dateObj = new Date(unix);//new Date(unix * 1000);
+        var UnixTimeToDate = dateObj.getFullYear() + '年' + (dateObj.getMonth() + 1) + '月' + dateObj.getDate() + '日';
+        var singleDate = (dateObj.getMonth() + 1) + '月' + dateObj.getDate() + "日";
+        var dayNames = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+        var week = dayNames[dateObj.getDay()];
+        var seccends = ":" + (dateObj.getSeconds() < 10 ? '0' : '') + dateObj.getSeconds();
+        if (seccends == ":00") {
+            seccends = "";
+        }
+        var time = (dateObj.getHours() < 10 ? '0' : '') + dateObj.getHours() + ":" + (dateObj.getMinutes() < 10 ? '0' : '') + dateObj.getMinutes() + seccends;
+        return {
+            week: week,
+            singleDate: singleDate,
+            date: UnixTimeToDate,
+            time: time
+        };
+    },
 }
