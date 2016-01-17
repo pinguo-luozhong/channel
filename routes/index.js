@@ -7,4 +7,7 @@
      require('./getChannelList')(app);
      require('./delChannel')(app);
      require('./updateStatus')(app);
+     require('./updateBaseChannel')(app);
+     require('./getChannelBaseData')(app);
+     require('./uploadFiles')(app);
  };

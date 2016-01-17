@@ -9,9 +9,10 @@ var ObjectID = require('mongodb').ObjectID;
 
 var table = "channel";
 var channelStatus = "channelStatus";
+var baseChannel = "baseChannel";
 
 //更改状态表
-var updateStatusTable = function(p,callback){
+var updateStatusTable = function (p, callback) {
     //连接到表
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(table);
@@ -19,11 +20,11 @@ var updateStatusTable = function(p,callback){
         var data = {
             versionFlag: p.versionStatus,
             descFlag: p.descStatus,
-            iconFlag:p.iconStatus,
-            screenshotFlag:p.screenshotStatus
+            iconFlag: p.iconStatus,
+            screenshotFlag: p.screenshotStatus
         };
         var whereStr = {_id: new ObjectID(p._id)};
-        collection.update(whereStr,{"$set":data}, function (err, result) {
+        collection.update(whereStr, {"$set": data}, function (err, result) {
             if (err) {
                 console.log('Error:' + err);
                 return;
@@ -45,17 +46,17 @@ var insertData = function (p, callback) {
         var data = {
             channelName: p.channelName,
             channelUrl: p.channelUrl,
-            imageList:p.imageList,
-            icon:p.icon,
-            version:p.version,
-            desc:p.desc,
-            title:p.title,
-            domObj:p.domObj,
+            imageList: p.imageList,
+            icon: p.icon,
+            version: p.version,
+            desc: p.desc,
+            title: p.title,
+            domObj: p.domObj,
             versionFlag: 1,
             descFlag: 1,
             iconFlag: 1,
             screenshotFlag: 1,
-            time:p.time
+            time: p.time
         };
         collection.findOne({channelName: p.channelName}, function (error, doc) {
             if (error) {
@@ -64,8 +65,8 @@ var insertData = function (p, callback) {
             } else if (doc) {
                 console.log("存在");
                 callback({
-                    status:201,
-                    message:"已存在"
+                    status: 201,
+                    message: "已存在"
                 });
             } else {
                 collection.insert(data, function (err, result) {
@@ -83,11 +84,11 @@ var insertData = function (p, callback) {
 };
 
 //查询
-var getChannelList = function (data,callback) {
+var getChannelList = function (data, callback) {
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(table);
         console.log(collection);
-        if(!collection){
+        if (!collection) {
             console.log("链接失败");
             return;
         }
@@ -98,12 +99,12 @@ var getChannelList = function (data,callback) {
                 res.send(500);
                 req.session.error = '网络异常错误！';
             } else {
-                var total = collection.count(function(e,a){
+                var total = collection.count(function (e, a) {
                     callback({
-                        status:200,
-                        message:"ok",
-                        total:a,
-                        data:doc
+                        status: 200,
+                        message: "ok",
+                        total: a,
+                        data: doc
                     });
                 });
             }
@@ -111,22 +112,77 @@ var getChannelList = function (data,callback) {
     });
 };
 //删除
-var delChannel = function (data,callback) {
+var delChannel = function (data, callback) {
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(table);
         //collection.remove({_id:obj_id}).toArray(function (error, doc) {
-        collection.findAndRemove({_id: new ObjectID(data._id)},function(error,doc){
+        collection.findAndRemove({_id: new ObjectID(data._id)}, function (error, doc) {
             if (error) {
                 res.send(500);
                 req.session.error = '网络异常错误！';
             } else {
                 callback({
-                    status:200,
-                    message:"ok",
-                    data:doc
+                    status: 200,
+                    message: "ok",
+                    data: doc
                 });
             }
         })
+    });
+};
+//获取基础数据
+var getChannelBaseData = function (p, callback) {
+    MongoClient.connect(DB_CONN_STR, function (err, db) {
+        var collection = db.collection(baseChannel);
+        console.log('aa');
+        collection.find({}).toArray(function (error, doc) {
+            if (error) {
+                res.send(500);
+                req.session.error = '网络异常错误！';
+            } else {
+                var total = collection.count(function (e, a) {
+                    callback({
+                        status: 200,
+                        message: "ok",
+                        total: a,
+                        data: doc
+                    });
+                });
+            }
+        });
+    });
+};
+
+//更新基础数据
+var updateBaseChannel = function (p, callback) {
+    MongoClient.connect(DB_CONN_STR, function (err, db) {
+        var collection = db.collection(baseChannel);
+        //collection.remove({_id:obj_id}).toArray(function (error, doc) {
+        if (p._id) {// 修改
+            var whereStr = {_id: new ObjectID(p._id)};
+            collection.update(whereStr, {"$set": data}, function (err, result) {
+                if (err) {
+                    console.log('Error:' + err);
+                    return;
+                }
+                console.log("更新成功");
+                //console.log("=-----------------------------"+result)
+                db.close();
+                callback(result);
+            });
+        } else {//新增
+            console.log(p);
+            collection.insert(p, function (err, result) {
+                if (err) {
+                    console.log('Error:' + err);
+                    return;
+                }
+                console.log("新增成功");
+                //console.log("=-----------------------------"+result)
+                db.close();
+                callback(result);
+            });
+        }
     });
 };
 
@@ -134,6 +190,8 @@ module.exports = {
     getChannelList: getChannelList,
     delChannel: delChannel,
     updateChannelStatus: updateStatusTable,
+    updateBaseChannel: updateBaseChannel,
+    getChannelBaseData: getChannelBaseData,
     insertData: insertData
 };
 

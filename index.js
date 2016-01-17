@@ -5,7 +5,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 
 // 设定views变量，意为视图存放的目录
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'public'));
 
 // 设定view engine变量，意为网页模板引擎
 //app.set('view engine', 'ejs');
