@@ -160,6 +160,13 @@ var updateBaseChannel = function (p, callback) {
         //collection.remove({_id:obj_id}).toArray(function (error, doc) {
         if (p._id) {// 修改
             var whereStr = {_id: new ObjectID(p._id)};
+            var data={
+                imageList:p.imagesList,
+                icon:p.imagesList,
+                version:p.version,
+                desc:p.desc,
+                time:p.time
+            };
             collection.update(whereStr, {"$set": data}, function (err, result) {
                 if (err) {
                     console.log('Error:' + err);
