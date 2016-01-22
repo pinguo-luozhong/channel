@@ -31,12 +31,29 @@ var TopView = React.createClass({
     },
 
     doAddChannel: function () {
+
+
+        var pageObject = this.props.pageObject;
+        var channelName = pageObject.channelName;
+        if(channelName == ""){
+            MainAction.showAlert('Error', "渠道名称不能为空！", true);
+            return ;
+        }
+
+        var channelUrl = pageObject.channelUrl;
+        if(channelUrl == ""){
+            MainAction.showAlert('Error', "渠道url不能为空！", true);
+            return ;
+        }
+
         var data = {
-            channelName: this.props.pageObject.channelName,
-            channelUrl: this.props.pageObject.channelUrl
+            channelName: pageObject.channelName,
+            channelUrl: pageObject.channelUrl
         };
+
         c360.server.jsonpInterface('addChannel', data, function (res) {
             if (res.status == 200) {
+                MainAction.showChannelAlert('温馨提示', false);
                 MainAction.showAlert('Success', '添加渠道成功!', true);
             } else {
                 MainAction.showAlert('Error', res.message, true);
@@ -66,29 +83,61 @@ var TopView = React.createClass({
     //更新基础渠道信息
     handleUpdateChannelEvent: function () {
         this.handleGetBaseChannel(function (res) {
-            console.log(res);
-            //参数
-            var p = {
-                _id:"",
-                imageList:[],
-                icon:[],
-                version:"7.1.2",
-                desc:"描述信息"
-            };
-            if (res.status == 200 && res.data.length != 0) {
-                p._id = res.data[0]._id;
-            }
-
-            console.log(p);
-            c360.server.jsonpInterface('updateBaseChannel',p,function(res){
-                if(res.status == 200){
-                    MainAction.showAlert('Success','更新成功!',true);
+            if(res.status == 200){
+                var data = res.data;
+                if(data.length == 0){
+                    MainAction.showUpdateChannelAlert('温馨提示', true, function (event) {
+                        this.doUpdateChannel();
+                    }.bind(this),null,true);
                 }else{
-                    MainAction.showAlert('Error',res.message,true);
+                    MainAction.showUpdateChannelAlert('温馨提示', true, function (event) {
+                        this.doUpdateChannel();
+                    }.bind(this),null,false,data[0].version,data[0].icon,data[0].desc,data[0].imageList,data[0]._id);
                 }
-            }.bind(this),'GET');
+            }else{
+                MainAction.showAlert('Error', res.message, true);
+            }
+        }.bind(this));
+    },
 
-        });
+    doUpdateChannel:function(){
+        var pageObject = this.props.pageObject;
+        var version = pageObject.version;
+        if(version == ""){
+            MainAction.showAlert('Error', "版本号不能为空！", true);
+            return ;
+        }
+        var desc = pageObject.desc;
+        if(desc == ""){
+            MainAction.showAlert('Error', "描述不能为空！", true);
+            return ;
+        }
+        var icon = pageObject.icon;
+        if(icon == ""){
+            MainAction.showAlert('Error', "请上传图标！", true);
+            return ;
+        }
+        var imageList = pageObject.imageList;
+        if(imageList.length == 0){
+            MainAction.showAlert('Error', "请上传截图！", true);
+            return ;
+        }
+        var data = {
+            _id:this.props.pageObject.channelId,
+            version: this.props.pageObject.version,
+            desc: this.props.pageObject.desc,
+            icon:icon,
+            imageList:imageList
+        };
+
+        c360.server.jsonpInterface('updateBaseChannel',data,function(res){
+            if(res.status == 200){
+                MainAction.showUpdateChannelAlert('温馨提示', false);
+                MainAction.showAlert('Success','更新成功!',true);
+            }else{
+                MainAction.showAlert('Error',res.message,true);
+            }
+        }.bind(this),'GET');
     }
 });
 
