@@ -20,11 +20,11 @@ var ChannelDialogView = React.createClass({
                             </div>
                             <div className="modal-body">
                                 <div style={{display: 'block'}}>
-                                    <span style={{display: 'inline-block',lineHeight:'24px',width:'50px',textAlign:'right'}}>渠道名称</span>
+                                    <span style={{display: 'inline-block',lineHeight:'24px',width:'60px',textAlign:'right'}}><div className="red">*</div>渠道名称</span>
                                     <input className="form-control" onChange={this.handleChannelNameEvent} value={this.props.pageObject.channelName} type="text" style={{display: 'inline-block',marginLeft:'10px'}} placeholder=""/>
                                 </div>
                                 <div style={{display: 'block',marginTop:'20px'}}>
-                                    <span style={{display: 'inline-block',lineHeight:'24px',width:'50px',textAlign:'right'}}>渠道url</span>
+                                    <span style={{display: 'inline-block',lineHeight:'24px',width:'60px',textAlign:'right'}}><div className="red">*</div>渠道url</span>
                                     <input className="form-control" onChange={this.handleChannelUrlEvent} value={this.props.pageObject.channelUrl} type="text" style={{display: 'inline-block',marginLeft:'10px'}} placeholder=""/>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@ var ChannelDialogView = React.createClass({
     },
 
     handleConfirmEvent:function(event){
-        this.handleStateEvent(event);
+        //this.handleStateEvent(event);
         if($.isFunction(this.props.pageObject.comfirmCallback)) this.props.pageObject.comfirmCallback();
     },
 

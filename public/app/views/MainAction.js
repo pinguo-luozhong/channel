@@ -1,4 +1,4 @@
-var MainAction = Reflux.createActions(['getTemplateList','showAlert','showChannelAlert','showConfirm','showEditAlert']);
+var MainAction = Reflux.createActions(['getTemplateList','showAlert','setImageList','delImageList','showUpdateChannelAlert','setIcon','showChannelAlert','showConfirm','showEditAlert']);
 
 var MainStore = Reflux.createStore({
 
@@ -15,6 +15,14 @@ var MainStore = Reflux.createStore({
             showChannelAlertFlag:false,
             channelName:'',
             channelUrl:'',
+            showUpdateChannelAlertTitle:'',
+            showUpdateChannelAlertFlag:false,
+            channelId:'',
+            updateChannelFlag:false,
+            version:'',
+            icon:'',
+            desc:'',
+            imageList:[],
             showAlertTitle:'Error',
             showAlertMessage:"",
             showAlertFlag:false,
@@ -23,6 +31,36 @@ var MainStore = Reflux.createStore({
             showComfirmFlag:false,
         };
 
+    },
+
+    onSetImageList:function(image){
+        this.pageObject.imageList.push(image);
+        this.trigger(this.pageObject);
+    },
+
+    onSetIcon:function(icon){
+        this.pageObject.icon = icon;
+        this.trigger(this.pageObject);
+    },
+
+    onDelImageList:function(image){
+        var imageIndex = $.inArray(image, this.pageObject.imageList);
+        this.pageObject.imageList.splice(imageIndex,1);
+        this.trigger(this.pageObject);
+    },
+
+    onShowUpdateChannelAlert:function(title,flag,comfirmCallback,cancelCallback,updateChannelFlag,version,icon,desc,imageList,id){
+        this.pageObject.showUpdateChannelAlertTitle = title;
+        this.pageObject.showUpdateChannelAlertFlag = flag;
+        this.pageObject.updateChannelFlag = updateChannelFlag;
+        this.pageObject.version = version || '';
+        this.pageObject.channelId = id || '';
+        this.pageObject.icon = icon || '';
+        this.pageObject.desc = desc || '';
+        this.pageObject.imageList = imageList || [];
+        this.pageObject.comfirmCallback = comfirmCallback;
+        this.pageObject.cancelCallback = cancelCallback;
+        this.trigger(this.pageObject);
     },
 
     onShowChannelAlert:function(title,flag,comfirmCallback,cancelCallback){
