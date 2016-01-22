@@ -213,15 +213,14 @@ input[type="radio"], input[type="checkbox"] {
 }
 
 .cover-upload{
-  position: relative;
   z-index: 1;
-  top: -28px;
-  left: 60px;
   width: 66px;
   height: 28px;
   opacity: 0;
   cursor: pointer;
-  display: block;
+  display: inline-block;
+  margin-left: -66px;
+  margin-top: 19px
 }
 
 .multiselect-container {
@@ -1430,13 +1429,15 @@ ul#dropselistbox li.over {
 }
 
 .standard{
-  max-width: 96px;
-  display: block;
+  max-width: 50px;
+  display: inline-block;
 }
 
 .general-panel{
   display: inline-block;
   position: relative;
+  margin-top: 22px;
+  margin-left: 20px;
 }
 
 .general-panel .delete-panel{

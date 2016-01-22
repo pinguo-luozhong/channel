@@ -70,7 +70,7 @@ var UpdateChannelDialogView = React.createClass({
             if(this.props.pageObject.icon == ""){
                 tempArr.push(<div key="icon0" ></div>);
             }else{
-                tempArr.push(<img key="icon0" className="standard" src={this.props.pageObject.icon} alt="上传图片"/>);
+                tempArr.push(<img key="icon0" className="standard" style={{ marginLeft:"20px",marginTop:"20px"}} src={this.props.pageObject.icon} alt="上传图片"/>);
             }
 
             return tempArr;
