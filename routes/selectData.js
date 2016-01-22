@@ -8,23 +8,34 @@ var cheerio = require('cheerio');
 var superagent = require('superagent');
 var getChannelList = require("./dbHelper").getChannelList;
 var updateChannelStatus = require("./dbHelper").updateChannelStatus;
+var getChannelBaseData = require("./dbHelper").getChannelBaseData;
 
+
+var baseData = {};
 //获取数据
 var getData = function () {
-    var data = {
-        skip: "",
-        limit: ""
-    };
-    getChannelList(data, function (r) {
-        var listData = r.data;
+    getChannelBaseData({}, function (r) {
+        console.log(r);
+        if (r.status == "200") {
+            baseData = r.data[0];
 
-        for (var n = 0; n < listData.length; n++) {
-            var everyObj = listData[n];//列表单条数据
+            var data = {
+                skip: "",
+                limit: ""
+            };
+            getChannelList(data, function (r) {
+                var listData = r.data;
 
-            searchFuc(everyObj);
-            //console.log(listData[0].domObj.descContain);
+                for (var n = 0; n < listData.length; n++) {
+                    var everyObj = listData[n];//列表单条数据
+
+                    searchFuc(everyObj);
+                    //console.log(listData[0].domObj.descContain);
+                }
+            });
         }
     });
+
 };
 
 //去除空格(此处将空格变为一个)
@@ -57,8 +68,8 @@ var params = {
     time: new Date().getTime()
 };
 var checkEle = function (ele, res, everyObj) {
-    var version = everyObj.version;
-    var desc = everyObj.desc;
+    var version = baseData.version;
+    var desc = baseData.desc;
 
     if (ele == "descContain") {
         if (res != desc) {

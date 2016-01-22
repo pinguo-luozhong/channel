@@ -78,7 +78,7 @@ var ListView = React.createClass({
                 }
             }
             array.push(imageArray);
-            var versionVal = "版本太低";
+            var versionVal = "版本异常";
             if(tableArray[i].versionFlag == 1){
                 versionVal = "版本正常";
             }

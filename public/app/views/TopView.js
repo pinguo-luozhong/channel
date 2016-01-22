@@ -72,7 +72,7 @@ var TopView = React.createClass({
                 _id:"",
                 imageList:[],
                 icon:[],
-                version:7.2,
+                version:"7.1.2",
                 desc:"描述信息"
             };
             if (res.status == 200 && res.data.length != 0) {
