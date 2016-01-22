@@ -208,13 +208,17 @@ input[type="radio"], input[type="checkbox"] {
   display: table-cell;
 }
 
+#alertDialog{
+  z-index: 1001;
+}
+
 .cover-upload{
   position: relative;
   z-index: 1;
-  top: -39px;
-  left: 0px;
-  width: 74px;
-  height: 31px;
+  top: -28px;
+  left: 60px;
+  width: 66px;
+  height: 28px;
   opacity: 0;
   cursor: pointer;
   display: block;
@@ -1431,6 +1435,7 @@ ul#dropselistbox li.over {
 }
 
 .general-panel{
+  display: inline-block;
   position: relative;
 }
 
