@@ -7,11 +7,11 @@ module.exports = function (app) {
 
     app.get('/updateBaseChannel', function (req, res) {
         var params = urllib.parse(req.url, true);
-        console.log(req.query._id);
+        console.log(req.query.imageList);
         var p = {
             _id:req.query._id,
-            imageList:req.query.imagesList||[],
-            icon:req.query.imagesList||[],
+            imageList:req.query.imageList||[],
+            icon:req.query.icon||"",
             version:req.query.version||"",
             desc:req.query.desc||"",
             time:new Date().getTime()

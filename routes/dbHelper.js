@@ -161,8 +161,8 @@ var updateBaseChannel = function (p, callback) {
         if (p._id) {// 修改
             var whereStr = {_id: new ObjectID(p._id)};
             var data={
-                imageList:p.imagesList,
-                icon:p.imagesList,
+                imageList:p.imageList,
+                icon:p.icon,
                 version:p.version,
                 desc:p.desc,
                 time:p.time
