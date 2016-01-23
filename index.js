@@ -23,6 +23,6 @@ app.get('/', function (req, res) {
     res.render('channelManagement');
 });
 
-app.listen(3004, function () {
+app.listen(3000, function () {
     console.log("start...");
 });
