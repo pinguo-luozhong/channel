@@ -130,6 +130,7 @@ var TopView = React.createClass({
             imageList:imageList
         };
 
+
         c360.server.jsonpInterface('updateBaseChannel',data,function(res){
             if(res.status == 200){
                 MainAction.showUpdateChannelAlert('温馨提示', false);

@@ -4,7 +4,7 @@
  */
 
 var MongoClient = require('mongodb').MongoClient;
-var DB_CONN_STR = 'mongodb://10.1.3.142:27017/channel';
+var DB_CONN_STR = 'mongodb://localhost:27017/channel';
 var ObjectID = require('mongodb').ObjectID;
 
 var table = "channel";
