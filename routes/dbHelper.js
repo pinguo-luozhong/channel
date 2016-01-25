@@ -101,6 +101,7 @@ var getChannelList = function (data, callback) {
             } else {
                 console.log("查询成功");
                 var total = collection.count(function (e, a) {
+                    console.log("计算总数");
                     callback({
                         status: 200,
                         message: "ok",
