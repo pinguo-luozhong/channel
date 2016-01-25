@@ -71,13 +71,15 @@ var checkEle = function (ele, res, everyObj) {
     var version = baseData.version;
     var desc = baseData.desc;
 
-    if (ele == "descContain") {
-        if (res != desc) {
-            params.descStatus = 0;
-        } else {
-            params.descStatus = 1;
-        }
-    }
+    //if (ele == "descContain") {
+    //    if (res != desc) {
+    //        params.descStatus = 0;
+    //    } else {
+    //        params.descStatus = 1;
+    //    }
+    //}
+
+    //对比版本号
     if (ele == "versionContain") {
         res = res.replace(/[^0-9]/ig, "");
         res = res.split("").join(".");

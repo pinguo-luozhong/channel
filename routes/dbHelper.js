@@ -38,7 +38,7 @@ var updateStatusTable = function (p, callback) {
 };
 
 //插入数据
-var insertData = function (p, callback) {
+var addChannel = function (p, callback) {
     //连接到表
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(table);
@@ -49,7 +49,7 @@ var insertData = function (p, callback) {
             imageList: p.imageList,
             icon: p.icon,
             version: p.version,
-            desc: p.desc,
+            desc: "",
             title: p.title,
             domObj: p.domObj,
             versionFlag: 1,
@@ -87,7 +87,6 @@ var insertData = function (p, callback) {
 var getChannelList = function (data, callback) {
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(table);
-        console.log(collection);
         if (!collection) {
             console.log("链接失败");
             return;
@@ -95,10 +94,12 @@ var getChannelList = function (data, callback) {
         var skip = parseInt(data.skip);
         var limit = parseInt(data.limit);
         collection.find({}).skip(skip).limit(limit).toArray(function (error, doc) {
+            console.log("查询");
             if (error) {
                 res.send(500);
                 req.session.error = '网络异常错误！';
             } else {
+                console.log("查询成功");
                 var total = collection.count(function (e, a) {
                     callback({
                         status: 200,
@@ -134,7 +135,6 @@ var delChannel = function (data, callback) {
 var getChannelBaseData = function (p, callback) {
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(baseChannel);
-        console.log('aa');
         collection.find({}).toArray(function (error, doc) {
             if (error) {
                 res.send(500);
@@ -178,7 +178,7 @@ var updateBaseChannel = function (p, callback) {
                 callback(result);
             });
         } else {//新增
-            console.log(p);
+            delete p._id;
             collection.insert(p, function (err, result) {
                 if (err) {
                     console.log('Error:' + err);
@@ -199,6 +199,6 @@ module.exports = {
     updateChannelStatus: updateStatusTable,
     updateBaseChannel: updateBaseChannel,
     getChannelBaseData: getChannelBaseData,
-    insertData: insertData
+    addChannel: addChannel
 };
 

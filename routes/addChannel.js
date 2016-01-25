@@ -5,7 +5,7 @@
 // app：express对象
 module.exports = function (app) {
     var urllib = require('url');
-    var addChannel = require("./dbHelper").insertData;
+    var addChannel = require("./dbHelper").addChannel;
 
     app.get('/addChannel', function (req, res) {
         var params = urllib.parse(req.url, true);
@@ -18,7 +18,7 @@ module.exports = function (app) {
         var version = req.query.version;
         var imageList = req.query.imageList;
         var icon = req.query.icon;
-        var desc = req.query.desc;
+        var desc = "";//暂时去掉描述
         var domObj = req.query.domObj;
         var p = {
             channelName: channelName,
