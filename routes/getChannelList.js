@@ -28,13 +28,16 @@ module.exports = function (app) {
             });
 
             console.log(result);
-            if (params.query && params.query.callback) {
-                //console.log(params.query.callback);
-                var str = params.query.callback + '(' + JSON.stringify(result) + ')';//jsonp
-                res.end(str);
-            } else {
-                res.end(JSON.stringify(result));//普通的json
-            }
+            res.send("200");
+            res.end();
+            //
+            //if (params.query && params.query.callback) {
+            //    //console.log(params.query.callback);
+            //    var str = params.query.callback + '(' + JSON.stringify(result) + ')';//jsonp
+            //    res.end(str);
+            //} else {
+            //    res.end(JSON.stringify(result));//普通的json
+            //}
         });
     });
 };
