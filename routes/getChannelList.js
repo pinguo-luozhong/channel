@@ -15,6 +15,7 @@ module.exports = function (app) {
             limit:req.query.limit
         };
         getChannelList(data, function (r) {
+            console.log("返回查询结果");
             var result = {
                 status: r.status || 200,
                 message: r.message || "ok",

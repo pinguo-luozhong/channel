@@ -26,7 +26,3 @@ app.get('/', function (req, res) {
 app.listen(3000, function () {
     console.log("start...");
 });
-
-var fs = require("fs");
-var imageBuf = "https://dn-c360a.qbox.me/2838028b034ae297d72e4b2b41f22e45.jpg";
-console.log(imageBuf.toString("base64"));
