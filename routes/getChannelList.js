@@ -27,8 +27,6 @@ module.exports = function (app) {
                 'Content-Type' : 'application/json'  // 添加charset=utf-8
             });
 
-            console.log(result);
-            res.send("200");
             res.end();
             //
             //if (params.query && params.query.callback) {
