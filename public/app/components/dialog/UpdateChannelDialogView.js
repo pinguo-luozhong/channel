@@ -10,8 +10,7 @@ var UpdateChannelDialogView = React.createClass({
         return {
             showUpdateChannelAlertFlag: false,
             showUpdateChannelAlertTitle:'Error',
-            version:'',
-            desc:''
+            version:''
         };
     },
 
@@ -126,10 +125,6 @@ var UpdateChannelDialogView = React.createClass({
                                     <span style={{display: 'inline-block',lineHeight:'24px',width:'50px',textAlign:'right'}}><div className="red">*</div>版本号</span>
                                     <input className="form-control" onChange={this.handleVersionEvent} value={this.props.pageObject.version} type="text" style={{display: 'inline-block',marginLeft:'10px'}} placeholder=""/>
                                 </div>
-                                <div style={{display: 'block',marginTop:'20px'}}>
-                                    <span style={{display: 'inline-block',lineHeight:'24px',width:'50px',textAlign:'right'}}><div className="red">*</div>描述</span>
-                                    <input className="form-control" onChange={this.handleDescEvent} value={this.props.pageObject.desc} type="text" style={{display: 'inline-block',marginLeft:'10px'}} placeholder=""/>
-                                </div>
                                 <div style={{display: 'block'}}>
                                     <span style={{display: 'inline-block',lineHeight:'24px',width:'50px',textAlign:'right',marginTop:'20px'}}><div className="red">*</div>图标</span>
                                     <button type="button" className="btn btn-primary" style={{marginTop:'20px',marginLeft:'10px'}}>上传图片</button>
@@ -172,15 +167,6 @@ var UpdateChannelDialogView = React.createClass({
     handleCloseEvent:function(event){
         this.handleStateEvent(event);
         if($.isFunction(this.props.pageObject.cancelCallback)) this.props.pageObject.cancelCallback();
-    },
-
-    handleDescEvent:function(event){
-        var target = $(event.target),
-            desc = target.val().trim();
-        this.props.pageObject.desc = desc;
-        this.setState({
-            desc:desc
-        });
     },
 
     handleVersionEvent:function(event){

@@ -21,7 +21,6 @@ var MainStore = Reflux.createStore({
             updateChannelFlag:false,
             version:'',
             icon:'',
-            desc:'',
             imageList:[],
             showAlertTitle:'Error',
             showAlertMessage:"",
@@ -49,14 +48,13 @@ var MainStore = Reflux.createStore({
         this.trigger(this.pageObject);
     },
 
-    onShowUpdateChannelAlert:function(title,flag,comfirmCallback,cancelCallback,updateChannelFlag,version,icon,desc,imageList,id){
+    onShowUpdateChannelAlert:function(title,flag,comfirmCallback,cancelCallback,updateChannelFlag,version,icon,imageList,id){
         this.pageObject.showUpdateChannelAlertTitle = title;
         this.pageObject.showUpdateChannelAlertFlag = flag;
         this.pageObject.updateChannelFlag = updateChannelFlag;
         this.pageObject.version = version || '';
         this.pageObject.channelId = id || '';
         this.pageObject.icon = icon || '';
-        this.pageObject.desc = desc || '';
         this.pageObject.imageList = imageList || [];
         this.pageObject.comfirmCallback = comfirmCallback;
         this.pageObject.cancelCallback = cancelCallback;
