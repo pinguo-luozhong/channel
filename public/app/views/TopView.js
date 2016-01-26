@@ -92,7 +92,7 @@ var TopView = React.createClass({
                 }else{
                     MainAction.showUpdateChannelAlert('温馨提示', true, function (event) {
                         this.doUpdateChannel();
-                    }.bind(this),null,false,data[0].version,data[0].icon,data[0].desc,data[0].imageList,data[0]._id);
+                    }.bind(this),null,false,data[0].version,data[0].icon,data[0].imageList,data[0]._id);
                 }
             }else{
                 MainAction.showAlert('Error', res.message, true);
@@ -105,11 +105,6 @@ var TopView = React.createClass({
         var version = pageObject.version;
         if(version == ""){
             MainAction.showAlert('Error', "版本号不能为空！", true);
-            return ;
-        }
-        var desc = pageObject.desc;
-        if(desc == ""){
-            MainAction.showAlert('Error', "描述不能为空！", true);
             return ;
         }
         var icon = pageObject.icon;
