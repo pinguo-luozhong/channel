@@ -23,8 +23,8 @@ module.exports = function (app) {
         var p = {
             channelName: channelName,
             channelUrl: channelUrl,
-            imageList:imageList,
-            icon:icon,
+            imageList:imageList||[],
+            icon:icon||[],
             version:version,
             title:channelName,
             domObj:domObj,

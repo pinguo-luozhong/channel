@@ -125,7 +125,6 @@ var TopView = React.createClass({
         var data = {
             _id:this.props.pageObject.channelId,
             version: this.props.pageObject.version,
-            desc: this.props.pageObject.desc,
             icon:icon,
             imageList:imageList
         };

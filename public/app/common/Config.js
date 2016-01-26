@@ -3,7 +3,7 @@ $.ns('c360.config');
 var httpUrl = window.location.href.indexOf("https") != -1?'https://':'http://';
 var host = location.host;
 
-var jsonpRoot = host+"/";
+var jsonpRoot = "pgchannel.camera360.com/";
 
 if(window.location.host == "support.camera360.com"){
     jsonpRoot = "10.1.7.125:3004/";
