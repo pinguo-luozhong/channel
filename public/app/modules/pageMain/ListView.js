@@ -1,6 +1,6 @@
 var MainAction = require('./MainAction.js');
 
-var PageAction = require('../components/page/PageAction.js');
+var PageAction = require('../../components/page/PageAction.js');
 
 var PageStore = PageAction.PageStore;
 

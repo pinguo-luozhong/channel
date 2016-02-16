@@ -1,6 +1,6 @@
 require('../../common/fileupload.js');
 
-var Action = require('../../views/MainAction.js');
+var Action = require('../../modules/pageMain/MainAction.js');
 
 var MainAction = Action.MainAction;
 

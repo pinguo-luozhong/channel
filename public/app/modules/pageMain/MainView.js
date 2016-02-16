@@ -14,19 +14,19 @@ var TopView = require('./TopView.js');
 
 var ListView = require('./ListView.js');
 
-var AlertDialogView = require('../components/dialog/AlertDialogView.js');
+var AlertDialogView = require('../../components/dialog/AlertDialogView.js');
 
-var ChannelDialogView = require('../components/dialog/ChannelDialogView.js');
+var ChannelDialogView = require('../../components/dialog/ChannelDialogView.js');
 
-var ConfirmDialogView = require('../components/dialog/ConfirmDialogView.js');
+var ConfirmDialogView = require('../../components/dialog/ConfirmDialogView.js');
 
-var EditAlertDialogView = require('../components/dialog/EditAlertDialogView.js');
+var EditAlertDialogView = require('../../components/dialog/EditAlertDialogView.js');
 
-var UpdateChannelDialogView = require('../components/dialog/UpdateChannelDialogView.js');
+var UpdateChannelDialogView = require('../../components/dialog/UpdateChannelDialogView.js');
 
-var LoadView = require('../components/load/LoadView.js');
+var LoadView = require('../../components/load/LoadView.js');
 
-var PageView = require('../components/page/PageView.js');
+var PageView = require('../../components/page/PageView.js');
 
 var NavView = React.createClass({
 

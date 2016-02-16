@@ -1,11 +1,10 @@
-var MainAction = Reflux.createActions(['getTemplateList','showAlert','setImageList','delImageList','showUpdateChannelAlert','setIcon','showChannelAlert','showConfirm','showEditAlert']);
+var MainAction = Reflux.createActions(['setTrigger','setReset','getTemplateList','showAlert','setImageList','delImageList','showUpdateChannelAlert','setIcon','showChannelAlert','showConfirm','showEditAlert']);
 
 var MainStore = Reflux.createStore({
 
     listenables:[MainAction],
 
-    getInitialState:function(){
-
+    onSetReset:function(){
         return this.pageObject = {
             list : [],
             showEditAlertTitle:'',
@@ -29,7 +28,14 @@ var MainStore = Reflux.createStore({
             showComfirmMessage:'',
             showComfirmFlag:false,
         };
+    },
 
+    getInitialState:function(){
+        return this.onSetReset();
+    },
+
+    onSetTrigger:function(){
+        this.trigger(this.pageObject);
     },
 
     onSetImageList:function(image){

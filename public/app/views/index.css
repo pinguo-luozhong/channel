@@ -15,6 +15,10 @@ body {
   background:url(../resource/images/icon-bg-body.png)
 }
 
+body.regist{
+  background: #282950;
+}
+
 div,form,img,ul,ol,li,dl,dt,dd,span {
   margin:0;
   padding:0;
@@ -109,6 +113,77 @@ input[type="radio"], input[type="checkbox"] {
 .btn-primary{
   color:#fff;
   background-color: rgb(136,158,181);
+}
+
+.carousel-inner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-inner .content-regist{
+  width: 350px;
+  margin: 0 auto;
+  padding-top: 80px;
+  display: block;
+}
+
+.content-regist h3 {
+  text-align: center;
+  padding: 54px 0 18px;
+  font-size: 18px;
+  color: #fff;
+  position: relative;
+}
+
+.content-regist ul {
+  margin: 0;
+  width: 100%;
+  padding: 24px 0 36px;
+  zoom: 1;
+}
+
+.content-regist ul li {
+  list-style: none;
+  display: block;
+  clear: both;
+  padding: 14px 0;
+  position: relative;
+}
+
+.content-regist ul li .input-regist {
+  background: #fff;
+  box-shadow: 0 2px 4px #c8c9dc inset;
+  border: none;
+  height: 44px;
+  width: 96%;
+  border-radius: 6px;
+  padding: 0 2%;
+  font-size: 16px;
+}
+
+.content-regist ul li span {
+  position: absolute;
+  display: block;
+  right: 0;
+  top: -7px;
+  color: #ff8042;
+  font-size: 12px;
+  text-align: right;
+}
+
+.content-regist ul li a.btn-login {
+  cursor: pointer;
+  clear: both;
+  display: block;
+  text-align: center;
+  color: #fff;
+  background: #3085d5;
+  padding: 10px 0;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 16px;
+  margin-top: 11px;
 }
 
 .dropdown-menu {
