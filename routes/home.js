@@ -3,7 +3,6 @@
  */
 module.exports = function ( app ) {
     app.get('/home', function (req, res) {
-        console.log(!req.session.user);
         if(!req.session.user){
 
             res.redirect("/login");

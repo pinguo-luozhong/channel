@@ -15,7 +15,6 @@ var baseData = {};
 //获取数据
 var getData = function () {
     getChannelBaseData({}, function (r) {
-        console.log(r);
         if (r.status == "200") {
             baseData = r.data[0];
 
@@ -65,6 +64,7 @@ var params = {
     descStatus: 1,
     iconStatus: 1,
     screenshotStatus: 1,
+    version:"",
     time: new Date().getTime()
 };
 var checkEle = function (ele, res, everyObj) {
@@ -83,7 +83,7 @@ var checkEle = function (ele, res, everyObj) {
     if (ele == "versionContain") {
         res = res.replace(/[^0-9]/ig, "");
         res = res.split("").join(".");
-        console.log(version - res);
+        params.version = res;
         if (version - res != 0) {
             params.versionStatus = 0;
         } else {

@@ -14,7 +14,6 @@ module.exports = function ( app ) {
             password: req.body.password
         };
         login(data, function (r) {
-            console.log("------------",r.status);
             if(r.status == 200){//登录成功
                 console.log(r.doc);
                 req.session.user=r.doc;

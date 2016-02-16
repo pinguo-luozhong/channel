@@ -47,7 +47,6 @@ var register = function (p,callback) {
             if (error) {
                 callback(netWorkError);
             } else if (doc) {
-                console.log("存在");
                 callback({
                     status: 201,
                     message: "用户已存在"
@@ -56,10 +55,8 @@ var register = function (p,callback) {
                 data.password = setMd5(data.password);
                 collection.insert(data, function (err, result) {
                     if (err) {
-                        console.log('Error:' + err);
                         return;
                     }
-                    console.log("注册成功");
                     db.close();
                     callback(result);
                 });
@@ -77,12 +74,10 @@ var login = function (p,callback) {
             userName: p.userName,
             password: p.password
         };
-        console.log(data);
         collection.findOne({userName: p.userName}, function (error, doc) {
             if (error) {
                 callback(netWorkError);
             } else if (!doc) {
-                console.log("不存在");
                 callback({
                     status: 404,
                     message: "用户不存在"
@@ -117,6 +112,7 @@ var updateStatusTable = function (p, callback) {
             versionFlag: p.versionStatus,
             descFlag: p.descStatus,
             iconFlag: p.iconStatus,
+            version:p.version,
             screenshotFlag: p.screenshotStatus
         };
         var whereStr = {_id: new ObjectID(p._id)};
@@ -125,8 +121,6 @@ var updateStatusTable = function (p, callback) {
                 callback(netWorkError);
                 return;
             }
-            console.log("更新成功");
-            //console.log("=-----------------------------"+result)
             db.close();
             callback(result);
         });
@@ -158,7 +152,6 @@ var addChannel = function (p, callback) {
             if (error) {
                 callback(netWorkError);
             } else if (doc) {
-                console.log("存在");
                 callback({
                     status: 201,
                     message: "已存在"
@@ -166,7 +159,6 @@ var addChannel = function (p, callback) {
             } else {
                 collection.insert(data, function (err, result) {
                     if (err) {
-                        console.log('Error:' + err);
                         return;
                     }
                     //console.log("=-----------------------------"+result)
@@ -183,19 +175,15 @@ var getChannelList = function (data, callback) {
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(table);
         if (!collection) {
-            console.log("链接失败");
             return;
         }
         var skip = parseInt(data.skip);
         var limit = parseInt(data.limit);
         collection.find({}).skip(skip).limit(limit).toArray(function (error, doc) {
-            console.log("查询");
             if (error) {
                 callback(netWorkError);
             } else {
-                console.log("查询成功");
                 var total = collection.count(function (e, a) {
-                    console.log("计算总数");
                     callback({
                         status: 200,
                         message: "ok",
@@ -265,7 +253,6 @@ var updateBaseChannel = function (p, callback) {
                     callback(netWorkError);
                     return;
                 }
-                console.log("更新成功");
                 //console.log("=-----------------------------"+result)
                 db.close();
                 callback(result);
@@ -277,7 +264,6 @@ var updateBaseChannel = function (p, callback) {
                     callback(netWorkError);
                     return;
                 }
-                console.log("新增成功");
                 //console.log("=-----------------------------"+result)
                 db.close();
                 callback(result);

@@ -7,7 +7,6 @@ module.exports = function (app) {
 
     app.get('/updateBaseChannel', function (req, res) {
         var params = urllib.parse(req.url, true);
-        console.log(req.query.imageList);
         var p = {
             _id:req.query._id,
             imageList:req.query.imageList||[],
@@ -27,7 +26,6 @@ module.exports = function (app) {
                 'Content-Type' : 'application/json'  // 添加charset=utf-8
             });
 
-            console.log("-------------"+params.query.callback);
             if (params.query && params.query.callback) {
                 //console.log(params.query.callback);
                 var str = params.query.callback + '(' + JSON.stringify(result) + ')';//jsonp
