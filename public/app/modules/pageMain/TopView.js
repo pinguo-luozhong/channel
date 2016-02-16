@@ -24,10 +24,9 @@ var TopView = React.createClass({
                 <a className="bottun4 relative" onClick={this.handleUpdateChannelEvent} style={{margin:"11px 0px 0px 22px"}}>
                     <div><span>编辑基础信息</span></div>
                 </a>
-
                 <p className="navbar-text">
                     <span node-type="navUserName" id="userName"></span>
-                    <a node-type="navLogout" href="" onClick={this.logout}>退出</a>
+                    <span node-type="navLogout" className="logout" onClick={this.logout}>退出</span>
                 </p>
             </div>
         );
@@ -111,6 +110,9 @@ var TopView = React.createClass({
 
     logout: function () {
         c360.server.jsonpInterface('logout', {}, function (res) {
+            if(res.status == 200){
+                location.reload();
+            }
         }.bind(this), 'GET');
     },
 

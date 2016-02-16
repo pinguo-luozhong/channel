@@ -1741,11 +1741,13 @@ table.table_style1 td a {
     width: 210px;
 }
 
-.navbar-text a{
+.navbar-text .logout {
     color: #428bca;
     text-decoration: none;
     margin-left: 10px;
+    cursor: pointer;
 }
+
 .navbar-text {
     float: right;
     margin: 18px 22px 0 22px;

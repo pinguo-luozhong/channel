@@ -3,16 +3,6 @@ module.exports = function ( app ) {
     var login = require("./dbHelper").login;
 
     app.get('/login',function(req,res){
-        console.log("-------",req.session.user);
-        //
-        //if(req.session.user){
-        //    res.render('home');
-        //}else{
-        //    console.log("-------",req.session.user);
-        //    req.session.error = "请先登录";
-        //    res.render('home');
-        //}
-
         res.render('login');
     });
 
