@@ -52,8 +52,9 @@ var ListView = React.createClass({
 
         var tableArray = this.props.pageObject.list;
 
-        if(tableArray.length == 0){
+        if(typeof tableArray=="undefined"||tableArray.length == 0){
             PageAction.setPageTotal(0);
+            tableArray = [];
         }
 
         var tableContent = [];

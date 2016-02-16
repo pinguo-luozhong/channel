@@ -1,7 +1,7 @@
 var MainAction = require('./MainAction.js');
 
 var MainAction = MainAction.MainAction;
-
+alert('a');
 var TopView = React.createClass({
 
     getInitialState: function () {
@@ -20,6 +20,10 @@ var TopView = React.createClass({
                 <a className="bottun4 relative" onClick={this.handleUpdateChannelEvent} style={{margin:"11px 0px 0px 22px"}}>
                     <div><span>编辑基础信息</span></div>
                 </a>
+                <p className="navbar-text">
+                    <span node-type="navUserName">罗中</span>
+                    <a node-type="navLogout" href="">退出</a>
+                </p>
             </div>
         );
     },

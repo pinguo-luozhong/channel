@@ -97,6 +97,7 @@ var MainStore = Reflux.createStore({
     },
 
     onGetTemplateList:function(index,callback){
+
         var data = {
             skip:index*5,
             limit:5

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="Shortcut Icon" href="http://dn-static.qbox.me/www.camera360.com/public/images/favicon.ico?v=2?v=201501081420701325">
+    <title></title>
+</head>
+<body>
+
+<label>
+    用户名：<input name="userName" id="userName" type="text">
+</label>
+
+<label>
+    密码：<input name="password" id="password" type="password">
+</label>
+
+<button id="submit">提交</button>
+
+<!-- build:js /scripts/base.min.js -->
+<!-- bower:js -->
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<script src="/bower_components/director/build/director.js"></script>
+<script src="/bower_components/react/react.js"></script>
+<script src="/bower_components/react/react-dom.js"></script>
+<script src="/bower_components/reflux/dist/reflux.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<script>
+    $("#submit").click(function () {
+        var name = $('#userName').val();
+        var password = $('#password').val();
+        var data = {"userName": name, password: password};
+        $.ajax({
+            url: location.origin + '/register',
+            type: "POST",
+            dataType: "JSON",
+            data: data,//JSON.stringify(data),
+            contentType:"application/x-www-form-urlencoded",//"application/json",
+            cache: false
+        }).done(function(req){
+            if(req.status == 200){
+                location.href = 'login';
+            }else{
+                alert(req.message);
+            }
+        }).fail(function(req) {
+
+        });
+    });
+</script>
+</body>
+</html>

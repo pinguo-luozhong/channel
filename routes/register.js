@@ -1,33 +1,37 @@
-module.exports = function ( app ) {
-    app.get('/register', function(req, res) {
+module.exports = function (app) {
+    var urllib = require('url');
+    var register = require("./dbHelper").register;
+
+    app.get('/register',function(req,res){
         res.render('register');
     });
 
     app.post('/register', function (req, res) {
-        var User = global.dbHelper.getModel('user'),
-            name = req.body.name;
-        User.findOne({name: name}, function (error, doc) {
-            if (error) {
-                res.send(500);
-                req.session.error = '网络异常错误！';
-                console.log(error);
-            } else if (doc) {
-                req.session.error = '用户名已存在！';
-                res.send(500);
+        var params = urllib.parse(req.url, true);
+
+        var data = {
+            userName: req.body.userName||"",
+            password: req.body.password||""
+        };
+        register(data, function (r) {
+            var result = {
+                status: r.status || 200,
+                message: r.message || "ok",
+                data:[]
+            };
+
+            res.writeHeader(result.data, {
+                'Content-Type': 'application/json'  // 添加charset=utf-8
+            });
+
+
+            if (params.query && params.query.callback) {
+                //console.log(params.query.callback);
+                var str = params.query.callback + '(' + JSON.stringify(result) + ')';//jsonp
+                res.end(str);
             } else {
-                User.create({
-                    name: name,
-                    password: req.body.password
-                }, function (error, doc) {
-                    if (error) {
-                        res.send(500);
-                        console.log(error);
-                    } else {
-                        req.session.error = '用户名创建成功！';
-                        res.send(200);
-                    }
-                });
+                res.end(JSON.stringify(result));//普通的json
             }
         });
     });
-}
+};
