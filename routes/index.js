@@ -9,6 +9,9 @@
      require('./home')(app);
      require('./addChannel')(app);
      require('./getChannelList')(app);
+     require('./getVersionDiff')(app);
+     require('./getShotcutDiff')(app);
+     require('./getIconDiff')(app);
      require('./delChannel')(app);
      require('./updateStatus')(app);
      require('./updateBaseChannel')(app);

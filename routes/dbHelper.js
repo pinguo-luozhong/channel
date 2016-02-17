@@ -113,7 +113,8 @@ var updateStatusTable = function (p, callback) {
             descFlag: p.descStatus,
             iconFlag: p.iconStatus,
             version:p.version,
-            screenshotFlag: p.screenshotStatus
+            screenshotFlag: p.screenshotStatus,
+            time:new Date().getTime()
         };
         var whereStr = {_id: new ObjectID(p._id)};
         collection.update(whereStr, {"$set": data}, function (err, result) {
@@ -272,10 +273,94 @@ var updateBaseChannel = function (p, callback) {
     });
 };
 
+//获取版本异常的数据
+var getVersionDiff = function(data, callback) {
+    MongoClient.connect(DB_CONN_STR, function (err, db) {
+        var collection = db.collection(table);
+        if (!collection) {
+            return;
+        }
+        var skip = parseInt(data.skip);
+        var limit = parseInt(data.limit);
+        var select = collection.find({"versionFlag":0}).skip(skip).limit(limit);
+        select.toArray(function (error, doc) {
+            if (error) {
+                callback(netWorkError);
+            } else {
+                var total = select.count(function (e, a) {
+                    callback({
+                        status: 200,
+                        message: "ok",
+                        total: a,
+                        data: doc
+                    });
+                });
+            }
+        })
+    });
+};
+
+//获取图标异常的数据
+var getIconDiff = function(data, callback) {
+    MongoClient.connect(DB_CONN_STR, function (err, db) {
+        var collection = db.collection(table);
+        if (!collection) {
+            return;
+        }
+        var skip = parseInt(data.skip);
+        var limit = parseInt(data.limit);
+        var select = collection.find({"iconFlag":0}).skip(skip).limit(limit);
+        select.toArray(function (error, doc) {
+            if (error) {
+                callback(netWorkError);
+            } else {
+                var total = select.count(function (e, a) {
+                    callback({
+                        status: 200,
+                        message: "ok",
+                        total: a,
+                        data: doc
+                    });
+                });
+            }
+        })
+    });
+};
+
+//获取截图异常的数据
+var getShotcutDiff = function(data, callback) {
+    MongoClient.connect(DB_CONN_STR, function (err, db) {
+        var collection = db.collection(table);
+        if (!collection) {
+            return;
+        }
+        var skip = parseInt(data.skip);
+        var limit = parseInt(data.limit);
+        var select = collection.find({"screenshotFlag":0}).skip(skip).limit(limit);
+        select.toArray(function (error, doc) {
+            if (error) {
+                callback(netWorkError);
+            } else {
+                var total = select.count(function (e, a) {
+                    callback({
+                        status: 200,
+                        message: "ok",
+                        total: a,
+                        data: doc
+                    });
+                });
+            }
+        })
+    });
+};
+
 module.exports = {
     register: register,
     login: login,
     getChannelList: getChannelList,
+    getVersionDiff: getVersionDiff,
+    getIconDiff: getIconDiff,
+    getShotcutDiff: getShotcutDiff,
     delChannel: delChannel,
     updateChannelStatus: updateStatusTable,
     updateBaseChannel: updateBaseChannel,

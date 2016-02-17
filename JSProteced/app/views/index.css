@@ -441,8 +441,8 @@ input[type="radio"], input[type="checkbox"] {
 
 .glyphicon {
     position: relative;
-    top: 1px;
     display: inline-block;
+    vertical-align: middle;
     font-family: 'Glyphicons Halflings';
     -webkit-font-smoothing: antialiased;
     font-style: normal;
@@ -1724,21 +1724,25 @@ table.table_style1 td a {
 }
 
 .flag-style {
-    width: 120px;
+    min-width: 95px;
     display: inline-block;
     text-align: left;
+    vertical-align: top;
+    float: left;
 }
 
 .flag-style span {
     margin-left: 10px;
+    vertical-align: middle;
 }
 
 .time {
-    width: 210px;
+    min-width: 210px;
 }
 
 .channel {
     width: 210px;
+    margin-left: 10px;
 }
 
 .navbar-text .logout {

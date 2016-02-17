@@ -1,6 +1,10 @@
 var MainAction = require('./MainAction.js');
-
+var MainStore = MainAction.MainStore;
 var MainAction = MainAction.MainAction;
+
+var PageAction = require('../../components/page/PageAction.js');
+var PageAction = PageAction.PageAction;
+
 
 var TopView = React.createClass({
 
@@ -24,6 +28,15 @@ var TopView = React.createClass({
                 <a className="bottun4 relative" onClick={this.handleUpdateChannelEvent} style={{margin:"11px 0px 0px 22px"}}>
                     <div><span>编辑基础信息</span></div>
                 </a>
+                <a className="bottun4 relative" onClick={this.getVersionDiff} style={{margin:"11px 0px 0px 22px"}}>
+                    <div><span>版本异常</span></div>
+                </a>
+                <a className="bottun4 relative" onClick={this.getIconDiff} style={{margin:"11px 0px 0px 22px"}}>
+                    <div><span>图标异常</span></div>
+                </a>
+                <a className="bottun4 relative" onClick={this.getShotcutDiff} style={{margin:"11px 0px 0px 22px"}}>
+                    <div><span>截图异常</span></div>
+                </a>
                 <p className="navbar-text">
                     <span node-type="navUserName" id="userName"></span>
                     <span node-type="navLogout" className="logout" onClick={this.logout}>退出</span>
@@ -38,16 +51,65 @@ var TopView = React.createClass({
         }.bind(this));
     },
 
+    //获取版本异常
+    getVersionDiff:function(index,callback){
+        var data = {
+            skip:(index||0)*5,
+            limit:5
+        };
+        c360.server.jsonpInterface('getVersionDiff',data,function(res){
+            if(res.status == 200){
+                MainStore.pageObject.list = res.data;
+                MainStore.trigger(MainStore.pageObject);
+                PageAction.setPageTotal(res.total, function (index) {
+                    MainAction.getTemplateList(index);
+                }.bind(this));
+                if ($.isFunction(callback)) callback(res.total);
+            }else{
+                this.onShowAlert('Error',res.statusText,true);
+            }
+        }.bind(this),'GET');
+    },
+    //获取图标异常
+    getIconDiff:function(index,callback){
+        var data = {
+            skip:(index||0)*5,
+            limit:5
+        };
+        c360.server.jsonpInterface('getIconDiff',data,function(res){
+            if(res.status == 200){
+                MainStore.pageObject.list = res.data;
+                MainStore.trigger(MainStore.pageObject);
+                if ($.isFunction(callback)) callback(res.total);
+            }else{
+                this.onShowAlert('Error',res.statusText,true);
+            }
+        }.bind(this),'GET');
+    },
+    //获取截图异常
+    getShotcutDiff:function(index,callback){
+        var data = {
+            skip:(index||0)*5,
+            limit:5
+        };
+        c360.server.jsonpInterface('getShotcutDiff',data,function(res){
+            if(res.status == 200){
+                MainStore.pageObject.list = res.data;
+                MainStore.trigger(MainStore.pageObject);
+                if ($.isFunction(callback)) callback(res.total);
+            }else{
+                this.onShowAlert('Error',res.statusText,true);
+            }
+        }.bind(this),'GET');
+    },
+
     doAddChannel: function () {
-
-
         var pageObject = this.props.pageObject;
         var channelName = pageObject.channelName;
         if (channelName == "") {
             MainAction.showAlert('Error', "渠道名称不能为空！", true);
             return;
         }
-
         var channelUrl = pageObject.channelUrl;
         if (channelUrl == "") {
             MainAction.showAlert('Error', "渠道url不能为空！", true);
