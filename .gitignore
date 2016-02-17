@@ -11,6 +11,4 @@ docs/.*.m
 **/PHPUnit_Extensions_Story_TestCase.php
 .settings/*
 .idea
-bower.json
-gulpfile.js
 /nbproject/*
