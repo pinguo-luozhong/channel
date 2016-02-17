@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>渠道管理</title>
+</head>
+<body>
+<form>
+    <label>名称：<input name="channelName" id="channelName" type="text"></label>
+    <label>URL：<input name="channelUrl" id="channelUrl" type="text"></label>
+</form>
+<input type="button" onclick="addChannel()" value="add"/>
+
+<script src="https://fe.c360dn.com/tools/jquery.min.js"></script>
+<script>
+
+    var getJSON = function (url, data, callback, type) {
+        $.ajax({
+            url: url,
+            type: type == "GET" ? type : "POST",
+            dataType: type == "GET" ? "JSONP" : "JSON",
+            data: data,//JSON.stringify(data),
+            contentType: "application/x-www-form-urlencoded",//"application/json",
+            cache: false
+        }).done(function (req) {
+            if (req.status == 420) {
+
+            } else {
+                callback(req);
+            }
+        }).fail(function (req) {
+            if (req.status == 420) {
+
+            } else {
+                callback(req);
+            }
+        });
+    };
+    //添加渠道
+    var addChannel = function() {
+        //通过serialize()方法进行序列化表单值，创建文本字符串。
+        var channelName = $('#channelName').val();
+        var channelUrl = $('#channelUrl').val();
+//        var data = {"channelName": channelName, "channelUrl": channelUrl};
+
+        var data = {
+            channelName: channelName,
+            channelUrl: channelUrl,
+            imageList: [],
+            icon: "",
+            version: "",
+            title: channelName
+        };
+
+        getJSON("http://10.1.7.125:3004/addChannel", data, function (res) {
+            if (res.status == 200) {
+                alert("添加成功!")
+            } else {
+                alert(res.message)
+            }
+        }, "GET");
+    }
+    ;
+
+    //获取列表
+    var getChannelList = function () {
+        $.get("/getChannelList", {}).done(function (res) {
+            console.log($.parseJSON(res));
+        });
+    };
+
+//    getChannelList();
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html> <html lang=en> <head> <meta charset=UTF-8> <link rel="Shortcut Icon" href="http://dn-static.qbox.me/www.camera360.com/public/images/favicon.ico?v=2?v=201501081420701325"> <title></title> </head> <body> <label> 用户名：<input name=userName id=userName type=text> </label> <label> 密码：<input name=password id=password type=password> </label> <button id=submit>提交</button> <script src=./scripts/base.min.js?v=1455694277000></script> <script>
+    $("#submit").click(function () {
+        var name = $('#userName').val();
+        var password = $('#password').val();
+        var data = {"userName": name, password: password};
+        $.ajax({
+            url: location.origin + '/register',
+            type: "POST",
+            dataType: "JSON",
+            data: data,//JSON.stringify(data),
+            contentType:"application/x-www-form-urlencoded",//"application/json",
+            cache: false
+        }).done(function(req){
+            if(req.status == 200){
+                location.href = 'login';
+            }else{
+                alert(req.message);
+            }
+        }).fail(function(req) {
+
+        });
+    });
+</script> </body> </html>

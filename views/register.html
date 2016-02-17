@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<form>
+    <label>名称：<input name="name" id="name" type="text"></label>
+    <label>密码：<input name="password" id="password" type="password"></label>
+</form>
+<input type="button" onclick="register()" value="注 册"/>
+
+<script src="https://fe.c360dn.com/tools/jquery.min.js"></script>
+<script>
+    function register() {
+        //通过serialize()方法进行序列化表单值，创建文本字符串。
+        var name = $('#name').val();
+        var password = $('#password').val();
+        var data = {"name": name, "password": password};
+        //例如："username=张三&password=12345"
+        $.ajax({
+            url: '/register',
+            type: 'POST',
+            data: data,
+            success: function (data, status) {
+                if (status == 'success') {
+                    location.href = 'addChannel';
+                }
+            },
+            error: function (res, err) {
+//                location.href='register';
+            }
+        });
+    }
+</script>
+</body>
+</html>
