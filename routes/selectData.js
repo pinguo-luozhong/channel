@@ -109,6 +109,7 @@ var searchDom = function (html, everyObj) {
     var $ = cheerio.load(html);
 
     for (var i in domObj) {
+        //console.log("--",i);
         var seccondObj = domObj[i];
         var grapEle = seccondObj.grap.Ele;
         var grapClass = checkClass(seccondObj.grap.Class);
@@ -125,7 +126,9 @@ var searchDom = function (html, everyObj) {
 
         //console.log(grapEle + grapId + grapClass + " " + parEle + parId + parClass + " " + selfEle + selfId + selfClass);
         //通过CSS selector来筛选数据
-        $(grapEle + grapId + grapClass + " " + parEle + parId + parClass + " " + selfEle + selfId + selfClass).each(function (index, element) {
+        //var s = grapEle + grapId + grapClass + " " + parEle + parId + parClass + " " + selfEle + selfId + selfClass;
+        var s =  parEle + parId + parClass + " " + selfEle + selfId + selfClass;
+        $(s).each(function (index, element) {
             if (index == selfIndex) {
                 var resText = $(element).text();
                 statusParams = checkEle(i, resText, everyObj);
@@ -143,8 +146,15 @@ var searchDom = function (html, everyObj) {
 //遍历网页
 var searchFuc = function (obj) {
     var url = obj.channelUrl;//网站的地址
+    //if(url!="http://www.pc6.com/az/70813.html"){
+    ////    return
+    //}
+    if(url!="http://www.xiaopi.com/soft/8180.html"){
+        return
+    }
     superagent.get(url).end(function (err, res) {
         var html = res.text;
+        console.log(url);
         //var $ = cheerio.load(html);
         searchDom(html, obj);
     });
