@@ -14,11 +14,9 @@ var IndexView = React.createClass({
         }
         AppRoute.init();
     },
-
     render: function () {
         return (<div></div>);
     }
-
 });
 
 ReactDOM.render(

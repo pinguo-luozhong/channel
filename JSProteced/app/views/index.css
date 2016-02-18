@@ -1710,6 +1710,11 @@ table.table_style1 td {
     text-overflow: ellipsis;
 }
 
+table.table_style1 td:first-child {
+    text-align: left;
+    padding-left: 3%;
+}
+
 .data-table td div {
     white-space: normal;
     word-wrap: break-word;

@@ -7,7 +7,6 @@ var PageStore = PageAction.PageStore;
 var PageAction = PageAction.PageAction;
 
 var MainAction = MainAction.MainAction;
-
 var ListView = React.createClass({
 
     getInitialState: function () {
@@ -139,7 +138,7 @@ var ListView = React.createClass({
 
                 for (var key in tableContent[i]) {
                     arr.push(<td>
-                        <div style={{display:"inline-block",margin:"auto"}}>{tableContent[i][key]}</div>
+                        <div className="list-channel-name" style={{display:"inline-block",margin:"auto"}}>{tableContent[i][key]}</div>
                     </td>);
                 }
 
