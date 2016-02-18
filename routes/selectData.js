@@ -81,10 +81,22 @@ var checkEle = function (ele, res, everyObj) {
 
     //对比版本号
     if (ele == "versionContain") {
-        res = res.replace(/[^0-9]/ig, "");
-        res = res.split("").join(".");
-        params.version = res;
-        if (version - res != 0) {
+        //res = res.replace(/[^0-9]/ig, "");
+        //res = res.split("").join(".");
+        var reg1 = /[2-9]\.\d\.\d/g;
+        var reg2 = /[2-9]\.\d/g;
+        //var version = this.innerText.replace(/[^0-9]/ig, "");
+        var relVersion = res.match(reg1);
+        if (!relVersion) {
+            relVersion = res.match(reg2);
+        }
+        if (relVersion) {
+            relVersion = relVersion[0];
+        }
+
+
+        params.version = relVersion;
+        if (version != relVersion) {
             params.versionStatus = 0;
         } else {
             params.versionStatus = 1;
@@ -124,18 +136,19 @@ var searchDom = function (html, everyObj) {
         var selfId = seccondObj.self.Id == "" ? "" : "#" + seccondObj.self.Id;
         var selfIndex = seccondObj.self.index;
 
+        var grapSelect = grapEle+(grapId?grapId:grapClass);
+        var parSelect = parEle+(parId?parId:parClass);
+        var selfSelect = selfEle+(selfId?selfId:selfClass);
         //console.log(grapEle + grapId + grapClass + " " + parEle + parId + parClass + " " + selfEle + selfId + selfClass);
         //通过CSS selector来筛选数据
-        //var s = grapEle + grapId + grapClass + " " + parEle + parId + parClass + " " + selfEle + selfId + selfClass;
-        var s =  parEle + parId + parClass + " " + selfEle + selfId + selfClass;
-        $(s).each(function (index, element) {
+        var s1 = grapSelect + " " + parSelect + " " + selfSelect;
+        $(s1).each(function (index, element) {
             if (index == selfIndex) {
                 var resText = $(element).text();
                 statusParams = checkEle(i, resText, everyObj);
             }
         });
-    }
-    ;
+    };
 
     statusParams._id = id;
     updateChannelStatus(statusParams, function () {
@@ -149,9 +162,9 @@ var searchFuc = function (obj) {
     //if(url!="http://www.pc6.com/az/70813.html"){
     ////    return
     //}
-    if(url!="http://www.xiaopi.com/soft/8180.html"){
-        return
-    }
+    //if(url!="http://www.xiaopi.com/soft/8180.html"){
+    //    return
+    //}
     superagent.get(url).end(function (err, res) {
         var html = res.text;
         console.log(url);
