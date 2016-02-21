@@ -6,6 +6,8 @@ var http = require("http");
 var iconv = require('iconv-lite');
 var cheerio = require('cheerio');
 var superagent = require('superagent');
+var gm = require("gm");
+
 var getChannelList = require("./dbHelper").getChannelList;
 var updateChannelStatus = require("./dbHelper").updateChannelStatus;
 var getChannelBaseData = require("./dbHelper").getChannelBaseData;
@@ -51,11 +53,21 @@ var checkClass = function (className) {
     className = className.replace(/^(\s|\u00A0)+/, '').replace(/(\s|\u00A0)+$/, '');//去除两边空格
     className = className == "" ? "" : "." + className;
     if (className != "") {
-        className = className.split(" ");
-        className = className.join(".");
+        className = className.split(" ")[0];
+        //console.log(className[0]);
+        //className = className.join(".");
+        //className = "."+grapClass.split(".")[1];
     }
 
     return className;
+};
+
+//压缩图片
+var compressionImg = function (url) {
+    gm(url).resize(240, 240).noProfile().write('/uploadFile/resize.jpeg', function (err) {
+        //console.log(err);
+        if (!err) console.log('done');
+    });
 };
 
 //匹配元素
@@ -64,11 +76,12 @@ var params = {
     descStatus: 1,
     iconStatus: 1,
     screenshotStatus: 1,
-    version:"",
+    version: "",
     time: new Date().getTime()
 };
 var checkEle = function (ele, res, everyObj) {
     var version = baseData.version;
+    var icon = baseData.icon;
     var desc = baseData.desc;
 
     //if (ele == "descContain") {
@@ -83,6 +96,7 @@ var checkEle = function (ele, res, everyObj) {
     if (ele == "versionContain") {
         //res = res.replace(/[^0-9]/ig, "");
         //res = res.split("").join(".");
+
         var reg1 = /[2-9]\.\d\.\d/g;
         var reg2 = /[2-9]\.\d/g;
         //var version = this.innerText.replace(/[^0-9]/ig, "");
@@ -96,17 +110,20 @@ var checkEle = function (ele, res, everyObj) {
 
 
         params.version = relVersion;
+
         if (version != relVersion) {
             params.versionStatus = 0;
         } else {
             params.versionStatus = 1;
         }
     }
+
+    if (ele == "iconImgBox") {
+        //compressionImg(icon)
+    }
+
     return params;
 
-    //if(ele == "iconImgBox"){
-    //
-    //}
     //if(ele == "cutImgBox"){
     //
     //}
@@ -136,19 +153,39 @@ var searchDom = function (html, everyObj) {
         var selfId = seccondObj.self.Id == "" ? "" : "#" + seccondObj.self.Id;
         var selfIndex = seccondObj.self.index;
 
-        var grapSelect = grapEle+(grapId?grapId:grapClass);
-        var parSelect = parEle+(parId?parId:parClass);
-        var selfSelect = selfEle+(selfId?selfId:selfClass);
+        var grapSelect = grapEle + (grapId ? grapId : grapClass);
+        var parSelect = parEle + (parId ? parId : parClass);
+        var selfSelect = selfEle + (selfId ? selfId : selfClass);
         //console.log(grapEle + grapId + grapClass + " " + parEle + parId + parClass + " " + selfEle + selfId + selfClass);
         //通过CSS selector来筛选数据
         var s1 = grapSelect + " " + parSelect + " " + selfSelect;
+        //console.log("----"+$(s1).length);
         $(s1).each(function (index, element) {
-            if (index == selfIndex) {
-                var resText = $(element).text();
+            var resText ="";
+            //if(selfSelect.indexOf("#")>=0||(selfSelect&&$(selfSelect).length ==1)){
+            //    resText = $(element).text();
+            //}else
+
+            //console.log(index,selfIndex);
+            if($(s1).length == 1){
+                resText = $(element).text();
                 statusParams = checkEle(i, resText, everyObj);
+            }else{
+                if(index == selfIndex) {
+                    resText = $(element).text();
+                    statusParams = checkEle(i, resText, everyObj);
+                }
             }
+
+            //if(index == selfIndex) {
+            //    resText = $(element).text();
+            //    statusParams = checkEle(i, resText, everyObj);
+            //}
+
+
         });
-    };
+    }
+    ;
 
     statusParams._id = id;
     updateChannelStatus(statusParams, function () {
@@ -160,16 +197,20 @@ var searchDom = function (html, everyObj) {
 var searchFuc = function (obj) {
     var url = obj.channelUrl;//网站的地址
     //if(url!="http://www.pc6.com/az/70813.html"){
-    ////    return
+    //    return
     //}
-    //if(url!="http://www.xiaopi.com/soft/8180.html"){
+    //if(url!="http://apkhome.org/camera360-ultimate-7-0-4/"){
     //    return
     //}
     superagent.get(url).end(function (err, res) {
-        var html = res.text;
         console.log(url);
-        //var $ = cheerio.load(html);
-        searchDom(html, obj);
+        if(res){
+            var html = res.text;
+            //var $ = cheerio.load(html);
+            searchDom(html, obj);
+        }else{
+            console.log("抓取错误",url);
+        }
     });
 };
 

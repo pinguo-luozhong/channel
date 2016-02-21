@@ -15,7 +15,6 @@ module.exports = function ( app ) {
         };
         login(data, function (r) {
             if(r.status == 200){//登录成功
-                console.log(r.doc);
                 req.session.user=r.doc;
             }
             var result = {

@@ -45,8 +45,10 @@ var register = function (p,callback) {
         }
         collection.findOne({userName: p.userName}, function (error, doc) {
             if (error) {
+                db.close();
                 callback(netWorkError);
             } else if (doc) {
+                db.close();
                 callback({
                     status: 201,
                     message: "用户已存在"
@@ -54,10 +56,10 @@ var register = function (p,callback) {
             } else {
                 data.password = setMd5(data.password);
                 collection.insert(data, function (err, result) {
+                    db.close();
                     if (err) {
                         return;
                     }
-                    db.close();
                     callback(result);
                 });
             }
@@ -67,7 +69,7 @@ var register = function (p,callback) {
 
 //登录
 var login = function (p,callback) {
-    //连接到对数据库
+    //连接到数据库
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(userTable);
         var data = {
@@ -76,8 +78,10 @@ var login = function (p,callback) {
         };
         collection.findOne({userName: p.userName}, function (error, doc) {
             if (error) {
+                db.close();
                 callback(netWorkError);
             } else if (!doc) {
+                db.close();
                 callback({
                     status: 404,
                     message: "用户不存在"
@@ -118,11 +122,11 @@ var updateStatusTable = function (p, callback) {
         };
         var whereStr = {_id: new ObjectID(p._id)};
         collection.update(whereStr, {"$set": data}, function (err, result) {
+            db.close();
             if (err) {
                 callback(netWorkError);
                 return;
             }
-            db.close();
             callback(result);
         });
     });
@@ -151,19 +155,21 @@ var addChannel = function (p, callback) {
         };
         collection.findOne({channelName: p.channelName}, function (error, doc) {
             if (error) {
+                db.close();
                 callback(netWorkError);
             } else if (doc) {
+                db.close();
                 callback({
                     status: 201,
                     message: "已存在"
                 });
             } else {
                 collection.insert(data, function (err, result) {
+                    db.close();
                     if (err) {
                         return;
                     }
                     //console.log("=-----------------------------"+result)
-                    db.close();
                     callback(result);
                 });
             }
@@ -182,9 +188,11 @@ var getChannelList = function (data, callback) {
         var limit = parseInt(data.limit);
         collection.find({}).skip(skip).limit(limit).toArray(function (error, doc) {
             if (error) {
+                db.close();
                 callback(netWorkError);
             } else {
                 var total = collection.count(function (e, a) {
+                    db.close();
                     callback({
                         status: 200,
                         message: "ok",
@@ -202,6 +210,7 @@ var delChannel = function (data, callback) {
         var collection = db.collection(table);
         //collection.remove({_id:obj_id}).toArray(function (error, doc) {
         collection.findAndRemove({_id: new ObjectID(data._id)}, function (error, doc) {
+            db.close();
             if (error) {
                 callback(netWorkError);
             } else {
@@ -220,9 +229,11 @@ var getChannelBaseData = function (p, callback) {
         var collection = db.collection(baseChannel);
         collection.find({}).toArray(function (error, doc) {
             if (error) {
+                db.close();
                 callback(netWorkError);
             } else {
                 var total = collection.count(function (e, a) {
+                    db.close();
                     callback({
                         status: 200,
                         message: "ok",
@@ -250,23 +261,23 @@ var updateBaseChannel = function (p, callback) {
                 time: p.time
             };
             collection.update(whereStr, {"$set": data}, function (err, result) {
+                db.close();
                 if (err) {
                     callback(netWorkError);
                     return;
                 }
                 //console.log("=-----------------------------"+result)
-                db.close();
                 callback(result);
             });
         } else {//新增
             delete p._id;
             collection.insert(p, function (err, result) {
+                db.close();
                 if (err) {
                     callback(netWorkError);
                     return;
                 }
                 //console.log("=-----------------------------"+result)
-                db.close();
                 callback(result);
             });
         }
@@ -285,9 +296,11 @@ var getVersionDiff = function(data, callback) {
         var select = collection.find({"versionFlag":0}).skip(skip).limit(limit);
         select.toArray(function (error, doc) {
             if (error) {
+                db.close();
                 callback(netWorkError);
             } else {
                 var total = select.count(function (e, a) {
+                    db.close();
                     callback({
                         status: 200,
                         message: "ok",
@@ -312,9 +325,11 @@ var getIconDiff = function(data, callback) {
         var select = collection.find({"iconFlag":0}).skip(skip).limit(limit);
         select.toArray(function (error, doc) {
             if (error) {
+                db.close();
                 callback(netWorkError);
             } else {
                 var total = select.count(function (e, a) {
+                    db.close();
                     callback({
                         status: 200,
                         message: "ok",
@@ -339,9 +354,11 @@ var getShotcutDiff = function(data, callback) {
         var select = collection.find({"screenshotFlag":0}).skip(skip).limit(limit);
         select.toArray(function (error, doc) {
             if (error) {
+                db.close();
                 callback(netWorkError);
             } else {
                 var total = select.count(function (e, a) {
+                    db.close();
                     callback({
                         status: 200,
                         message: "ok",
