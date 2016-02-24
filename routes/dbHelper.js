@@ -153,27 +153,40 @@ var addChannel = function (p, callback) {
             screenshotFlag: 1,
             time: p.time
         };
-        collection.findOne({channelName: p.channelName}, function (error, doc) {
-            if (error) {
-                db.close();
-                callback(netWorkError);
-            } else if (doc) {
-                db.close();
-                callback({
-                    status: 201,
-                    message: "已存在"
-                });
-            } else {
-                collection.insert(data, function (err, result) {
+
+        if(p.channelId==0){//新增
+            collection.findOne({channelName: p.channelName}, function (error, doc) {
+                if (error) {
                     db.close();
-                    if (err) {
-                        return;
-                    }
-                    //console.log("=-----------------------------"+result)
-                    callback(result);
-                });
-            }
-        })
+                    callback(netWorkError);
+                } else if (doc) {
+                    db.close();
+                    callback({
+                        status: 201,
+                        message: "已存在"
+                    });
+                } else {
+                    collection.insert(data, function (err, result) {
+                        db.close();
+                        if (err) {
+                            return;
+                        }
+                        //console.log("=-----------------------------"+result)
+                        callback(result);
+                    });
+                }
+            })
+        }else{//修改
+            var whereStr = {_id: new ObjectID(p.channelId)};
+            collection.update(whereStr, {"$set": data}, function (err, result) {
+                db.close();
+                if (err) {
+                    callback(netWorkError);
+                    return;
+                }
+                callback(result);
+            });
+        }
     });
 };
 

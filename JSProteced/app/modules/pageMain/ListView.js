@@ -54,12 +54,12 @@ var ListView = React.createClass({
         }
 
         var tableContent = [];
-
+console.log(tableArray)
         for (var i = 0, length = tableArray.length; i < length; i++) {
             var array = [];
 
             array.push(<div style={{textAlign:"left"}}>
-                <a style={{cursor:"pointer"}} href={tableArray[i].channelUrl} target="_blank">{tableArray[i].title}</a>
+                <a style={{cursor:"pointer"}} href={tableArray[i].channelUrl+"?channelId="+tableArray[i]._id} target="_blank">{tableArray[i].title}</a>
                     <span style={{display:"inline-block",width:'100%',lineHeight:"30px"}}>
                         <img style={{width:"30px"}} src={tableArray[i].icon}/>
                         <span style={{fontSize:"18px",marginLeft:"50px"}} className={tableArray[i].versionFlag == 1?"green":"red"}>{tableArray[i].version}</span>

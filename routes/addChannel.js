@@ -21,6 +21,7 @@ module.exports = function (app) {
         var desc = "";//暂时去掉描述
         var domObj = req.query.domObj;
         var p = {
+            channelId:req.query.channelId,
             channelName: channelName,
             channelUrl: channelUrl,
             imageList:imageList||[],
@@ -42,7 +43,6 @@ module.exports = function (app) {
                 'Content-Type' : 'application/json'  // 添加charset=utf-8
             });
 
-            console.log("-------------"+params.query.callback);
             if (params.query && params.query.callback) {
                 //console.log(params.query.callback);
                 var str = params.query.callback + '(' + JSON.stringify(result) + ')';//jsonp

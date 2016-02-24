@@ -6,14 +6,16 @@ var http = require("http");
 var iconv = require('iconv-lite');
 var cheerio = require('cheerio');
 var superagent = require('superagent');
-var gm = require("gm");
 
 var getChannelList = require("./dbHelper").getChannelList;
 var updateChannelStatus = require("./dbHelper").updateChannelStatus;
 var getChannelBaseData = require("./dbHelper").getChannelBaseData;
 
 
-var baseData = {};
+var baseData = {};//基础数据
+var listLength = 0;//抓取网站总数
+var updatePageNo = 0;//被更新的网页数
+
 //获取数据
 var getData = function () {
     getChannelBaseData({}, function (r) {
@@ -26,7 +28,7 @@ var getData = function () {
             };
             getChannelList(data, function (r) {
                 var listData = r.data;
-
+                listLength = listData.length;
                 for (var n = 0; n < listData.length; n++) {
                     var everyObj = listData[n];//列表单条数据
 
@@ -64,10 +66,10 @@ var checkClass = function (className) {
 
 //压缩图片
 var compressionImg = function (url) {
-    gm(url).resize(240, 240).noProfile().write('/uploadFile/resize.jpeg', function (err) {
-        //console.log(err);
-        if (!err) console.log('done');
-    });
+    //gm(url).resize(240, 240).noProfile().write('/uploadFile/resize.jpeg', function (err) {
+    //    //console.log(err);
+    //    if (!err) console.log('done');
+    //});
 };
 
 //匹配元素
@@ -189,7 +191,11 @@ var searchDom = function (html, everyObj) {
 
     statusParams._id = id;
     updateChannelStatus(statusParams, function () {
+        updatePageNo++;
+        console.log(updatePageNo);
+        if(updatePageNo == listLength){
 
+        }
     });
 };
 
