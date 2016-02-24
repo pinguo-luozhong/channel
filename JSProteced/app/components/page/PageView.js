@@ -113,7 +113,7 @@ var PageView = React.createClass({
 
     handleSelectEvent:function(event){
         var target = $(event.currentTarget);
-        c360.MAX_PAGE_NUM = target.val();
+        c360.MAX_PAGE_NUM = parseInt(target.val(),10);
         MainAction.getTemplateList(0,c360.api, this.initTemplateList);
     },
 
@@ -128,8 +128,6 @@ var PageView = React.createClass({
         this.MAX_PAGE_SIZE = 5;
 
         this.MAX_PAGE_FLAG = 2;
-
-        c360.MAX_PAGE_NUM = 10;
 
         if(this.state.pageObject.pageTotal == 0){
             return (<div></div>);

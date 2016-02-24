@@ -34,6 +34,7 @@ var NavView = React.createClass({
 
     componentDidMount:function(){
         c360.api = "getChannelList";
+        c360.MAX_PAGE_NUM = 10;
     },
 
     render:function(){
