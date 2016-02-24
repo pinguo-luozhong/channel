@@ -1,5 +1,9 @@
 var Action = require('./PageAction.js');
 
+var MainAction = require('../../modules/pageMain/MainAction.js');
+
+var MainAction = MainAction.MainAction;
+
 var PageAction = Action.PageAction;
 
 var PageStore = Action.PageStore;
@@ -46,7 +50,7 @@ var PageView = React.createClass({
     },
 
     updatePageItems:function(){
-        this.totalPage = Math.ceil(this.state.pageObject.pageTotal / this.MAX_PAGE_NUM);
+        this.totalPage = Math.ceil(this.state.pageObject.pageTotal / c360.MAX_PAGE_NUM);
 
         this.totalArray = [];
 
@@ -107,13 +111,25 @@ var PageView = React.createClass({
 
     },
 
+    handleSelectEvent:function(event){
+        var target = $(event.currentTarget);
+        c360.MAX_PAGE_NUM = target.val();
+        MainAction.getTemplateList(0,c360.api, this.initTemplateList);
+    },
+
+    initTemplateList: function (length) {
+        PageAction.setPageTotal(length, function (index) {
+            MainAction.getTemplateList(index,c360.api);
+        }.bind(this));
+    },
+
     render:function(){
 
         this.MAX_PAGE_SIZE = 5;
 
         this.MAX_PAGE_FLAG = 2;
 
-        this.MAX_PAGE_NUM = 5;
+        c360.MAX_PAGE_NUM = 10;
 
         if(this.state.pageObject.pageTotal == 0){
             return (<div></div>);
@@ -123,6 +139,15 @@ var PageView = React.createClass({
 
         return (
                 <div className="page">
+                    <div className="l">
+                        每页显示:
+                        <select onChange={this.handleSelectEvent}>
+                            <option value="10">10</option>
+                            <option value="30">30</option>
+                            <option value="60">60</option>
+                            <option value="120">120</option>
+                        </select>
+                    </div>
                     <div className="r">
                         {this.totalArray}
                     </div>

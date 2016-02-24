@@ -104,8 +104,8 @@ var MainStore = Reflux.createStore({
 
     onGetTemplateList:function(index,apiName,callback){
         var data = {
-            skip:index*5,
-            limit:5
+            skip:index*c360.MAX_PAGE_NUM,
+            limit:c360.MAX_PAGE_NUM
         };
 
         c360.server.jsonpInterface(apiName,data,function(res){

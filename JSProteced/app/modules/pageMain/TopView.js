@@ -30,21 +30,6 @@ var TopView = React.createClass({
                 </p>
             </div>
         );
-
-        //return (
-        //    <div className="header">
-        //        <button type="button" className="btn" onClick={this.handleChannelEvent} style={{margin:"11px 0px 0px 22px"}}>点击添加渠道</button>
-        //        <button type="button" className="btn" onClick={this.handleUpdateEvent} style={{margin:"11px 0px 0px 22px"}}>点击触发数据更新</button>
-        //        <button type="button" className="btn" onClick={this.handleUpdateChannelEvent} style={{margin:"11px 0px 0px 22px"}}>编辑基础信息</button>
-        //        <button type="button" className="btn" onClick={this.handleSelectData.bind(this,"getVersionDiff")} style={{margin:"11px 0px 0px 22px"}}>版本异常</button>
-        //        <button type="button" className="btn" onClick={this.handleSelectData.bind(this,"getIconDiff")} style={{margin:"11px 0px 0px 22px"}}>图标异常</button>
-        //        <button type="button" className="btn" onClick={this.handleSelectData.bind(this,"getShotcutDiff")} style={{margin:"11px 0px 0px 22px"}}>截图异常</button>
-        //        <p className="navbar-text">
-        //            <span node-type="navUserName" id="userName"></span>
-        //            <span node-type="navLogout" className="logout" onClick={this.logout}>退出</span>
-        //        </p>
-        //    </div>
-        //);
     },
 
     handleChannelEvent: function () {
@@ -62,6 +47,7 @@ var TopView = React.createClass({
             $(".btn").removeClass("btn-primary");
             target.addClass("btn-primary");
         }
+        c360.api = api;
         MainAction.getTemplateList(0,api, function(total){
             PageAction.setPageTotal(total, function (index) {
                 MainAction.getTemplateList(index,api);

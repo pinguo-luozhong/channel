@@ -33,7 +33,7 @@ var NavView = React.createClass({
     mixins:[Reflux.connect(MainStore, 'pageObject')],
 
     componentDidMount:function(){
-
+        c360.api = "getChannelList";
     },
 
     render:function(){

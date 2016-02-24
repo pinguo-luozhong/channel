@@ -6,7 +6,7 @@ var host = location.host;
 var jsonpRoot = "pgchannel.camera360.com/";
 
 if(window.location.host.indexOf("localhost") >=0||window.location.host.indexOf("10") >=0||window.location.host.indexOf("192") >=0){
-    jsonpRoot = location.host+"/";
+    jsonpRoot = "10.1.7.125:3000/";//location.host+"/";
 }
 
 c360.config = {
