@@ -54,24 +54,35 @@ var ListView = React.createClass({
         }
 
         var tableContent = [];
-console.log(tableArray)
         for (var i = 0, length = tableArray.length; i < length; i++) {
             var array = [];
 
+            var iconUrl = tableArray[i].icon[0];
+            var channelUrl = tableArray[i].channelUrl;
+            var channelUrlHost = "";
+            if(iconUrl.indexOf("http")<0){
+                channelUrlHost = channelUrl.substr(0,channelUrl.indexOf("com")+3);
+                iconUrl = channelUrlHost+iconUrl;
+            }
             array.push(<div style={{textAlign:"left"}}>
-                <a style={{cursor:"pointer"}} href={tableArray[i].channelUrl+"?channelId="+tableArray[i]._id} target="_blank">{tableArray[i].title}</a>
+                <a style={{cursor:"pointer"}} href={channelUrl+"?channelId="+tableArray[i]._id} target="_blank">{tableArray[i].title}</a>
                     <span style={{display:"inline-block",width:'100%',lineHeight:"30px"}}>
-                        <img style={{width:"30px"}} src={tableArray[i].icon}/>
+                        <img style={{width:"30px"}} src={iconUrl}/>
                         <span style={{fontSize:"18px",marginLeft:"50px"}} className={tableArray[i].versionFlag == 1?"green":"red"}>{tableArray[i].version}</span>
                     </span>
             </div>);
 
             var imageArray = [];
             for (var j = 0, len = 6; j < len; j++) {
+                var shotCutUrl = tableArray[i].imageList[j];
+
+                if(shotCutUrl.indexOf("http")<0){
+                    shotCutUrl = channelUrlHost+shotCutUrl;
+                }
                 if (typeof tableArray[i].imageList[j] == "undefined") {
                     imageArray.push(<img style={{width:"50px",marginLeft:"5px"}} src='../resource/images/icon-default.jpg'/>);
                 } else {
-                    imageArray.push(<img style={{width:"50px",marginLeft:"5px"}} src={tableArray[i].imageList[j]}/>);
+                    imageArray.push(<img style={{width:"50px",marginLeft:"5px"}} src={shotCutUrl}/>);
                 }
             }
             array.push(imageArray);
