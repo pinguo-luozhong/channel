@@ -8,6 +8,7 @@ var AppRoute = Route.AppRoute;
 
 var IndexView = React.createClass({
 
+
     componentDidMount: function () {
         if (window.location.hash == "") {
             //window.location.href = "#page_Login";
