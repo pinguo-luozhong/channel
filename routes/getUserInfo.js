@@ -5,7 +5,6 @@ module.exports = function (app) {
    var urllib = require('url');
     app.get('/getUserInfo', function (req, res) {
         var params = urllib.parse(req.url, true);
-        console.log("--",req.session.user);
         var userName = req.session.user.userName||"";
         var result = {
             status:  200,

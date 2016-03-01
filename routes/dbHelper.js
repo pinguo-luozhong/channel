@@ -7,6 +7,11 @@ var MongoClient = require('mongodb').MongoClient;
 var DB_CONN_STR = 'mongodb://localhost:27017/channel';
 var ObjectID = require('mongodb').ObjectID;
 
+//var mongoose = require("mongoose");
+// 连接字符串格式为mongodb://主机/数据库名
+//mongoose.connect('mongodb://localhost:27017/channel');
+
+
 var table = "channel";
 var channelStatus = "channelStatus";
 var baseChannel = "baseChannel";
@@ -20,14 +25,14 @@ var netWorkError = {
 
 //MD5加密
 var crypto = require('crypto');
-var setMd5 = function(p){
+var setMd5 = function (p) {
     var content = p;
     var md5 = crypto.createHash('md5');
     md5.update(content);
     return md5.digest('hex');
 };
 //注册
-var register = function (p,callback) {
+var register = function (p, callback) {
     //连接到对数据库
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(userTable);
@@ -36,7 +41,7 @@ var register = function (p,callback) {
             userName: p.userName,
             password: p.password
         };
-        if(p.userName==""||p.password==""){
+        if (p.userName == "" || p.password == "") {
             callback({
                 status: 501,
                 message: "用户名或密码不能为空"
@@ -68,7 +73,7 @@ var register = function (p,callback) {
 };
 
 //登录
-var login = function (p,callback) {
+var login = function (p, callback) {
     //连接到数据库
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(userTable);
@@ -89,37 +94,91 @@ var login = function (p,callback) {
             } else {
                 db.close();
                 data.password = setMd5(data.password);
-                if(data.password != doc.password){
+                if (data.password != doc.password) {
                     callback({
                         status: 501,
                         message: "密码错误"
                     });
-                }else{
+                } else {
                     callback({
                         status: 200,
                         message: "登录成功",
-                        doc:doc
+                        doc: doc
                     });
                 }
             }
         });
     });
 };
+//var Schema = mongoose.Schema;
+////骨架模版
+//var movieSchema = new Schema({
+//    versionFlag: String,
+//    descFlag: String,
+//    iconFlag: String,
+//    version: String,
+//    screenshotFlag: String,
+//    time: String
+//});
 
+//模型
+//var Movie = mongoose.model(table, movieSchema);
 //更改状态表
 var updateStatusTable = function (p, callback) {
-    //连接到表
+//    //连接到表
+//
+//
+////存储数据
+//    var moive = new Movie({
+//        versionFlag: p.versionStatus,
+//        descFlag: p.descStatus,
+//        iconFlag: p.iconStatus,
+//        version: p.version,
+//        screenshotFlag: p.screenshotStatus,
+//        time: new Date().getTime()
+//    });
+//
+//    if(p._id){
+//        console.log("++" + p._id);
+//        moive.update({_id: p._id}, {
+//            $set: {
+//                versionFlag: p.versionStatus,
+//                descFlag: p.descStatus,
+//                iconFlag: p.iconStatus,
+//                version: p.version,
+//                screenshotFlag: p.screenshotStatus,
+//                time: new Date().getTime()
+//            }
+//        }, function(err) {
+//            if(err){
+//                console.log(err)
+//                return
+//            }
+//            console.log("---" + p._id);
+//        });
+//    }else{
+//        //保存数据库
+//        moive.save(function (err) {
+//            if (err) {
+//                console.log('保存失败')
+//                return;
+//            }
+//            console.log('meow');
+//        });
+//    }
+//
+//    return
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(table);
-        //插入数据
         var data = {
             versionFlag: p.versionStatus,
             descFlag: p.descStatus,
             iconFlag: p.iconStatus,
-            version:p.version,
+            version: p.version,
             screenshotFlag: p.screenshotStatus,
-            time:new Date().getTime()
+            time: new Date().getTime()
         };
+        //插入数据
         var whereStr = {_id: new ObjectID(p._id)};
         collection.update(whereStr, {"$set": data}, function (err, result) {
             db.close();
@@ -154,7 +213,7 @@ var addChannel = function (p, callback) {
             time: p.time
         };
 
-        if(p.channelId==0){//新增
+        if (p.channelId == 0) {//新增
             collection.findOne({channelName: p.channelName}, function (error, doc) {
                 if (error) {
                     db.close();
@@ -176,7 +235,7 @@ var addChannel = function (p, callback) {
                     });
                 }
             })
-        }else{//修改
+        } else {//修改
             var whereStr = {_id: new ObjectID(p.channelId)};
             collection.update(whereStr, {"$set": data}, function (err, result) {
                 db.close();
@@ -298,7 +357,7 @@ var updateBaseChannel = function (p, callback) {
 };
 
 //获取版本异常的数据
-var getVersionDiff = function(data, callback) {
+var getVersionDiff = function (data, callback) {
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(table);
         if (!collection) {
@@ -306,7 +365,7 @@ var getVersionDiff = function(data, callback) {
         }
         var skip = parseInt(data.skip);
         var limit = parseInt(data.limit);
-        var select = collection.find({"versionFlag":0}).skip(skip).limit(limit);
+        var select = collection.find({"versionFlag": 0}).skip(skip).limit(limit);
         select.toArray(function (error, doc) {
             if (error) {
                 db.close();
@@ -327,7 +386,7 @@ var getVersionDiff = function(data, callback) {
 };
 
 //获取图标异常的数据
-var getIconDiff = function(data, callback) {
+var getIconDiff = function (data, callback) {
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(table);
         if (!collection) {
@@ -335,7 +394,7 @@ var getIconDiff = function(data, callback) {
         }
         var skip = parseInt(data.skip);
         var limit = parseInt(data.limit);
-        var select = collection.find({"iconFlag":0}).skip(skip).limit(limit);
+        var select = collection.find({"iconFlag": 0}).skip(skip).limit(limit);
         select.toArray(function (error, doc) {
             if (error) {
                 db.close();
@@ -356,7 +415,7 @@ var getIconDiff = function(data, callback) {
 };
 
 //获取截图异常的数据
-var getShotcutDiff = function(data, callback) {
+var getShotcutDiff = function (data, callback) {
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         var collection = db.collection(table);
         if (!collection) {
@@ -364,7 +423,7 @@ var getShotcutDiff = function(data, callback) {
         }
         var skip = parseInt(data.skip);
         var limit = parseInt(data.limit);
-        var select = collection.find({"screenshotFlag":0}).skip(skip).limit(limit);
+        var select = collection.find({"screenshotFlag": 0}).skip(skip).limit(limit);
         select.toArray(function (error, doc) {
             if (error) {
                 db.close();

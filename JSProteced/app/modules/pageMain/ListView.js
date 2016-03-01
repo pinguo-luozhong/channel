@@ -64,8 +64,13 @@ var ListView = React.createClass({
                 channelUrlHost = channelUrl.substr(0,channelUrl.indexOf("com")+3);
                 iconUrl = channelUrlHost+iconUrl;
             }
+            if(channelUrl.indexOf("?")>0){
+                channelUrl = channelUrl+"&channelId="+tableArray[i]._id;
+            }else{
+                channelUrl = channelUrl+"?channelId="+tableArray[i]._id;
+            }
             array.push(<div style={{textAlign:"left"}}>
-                <a style={{cursor:"pointer"}} href={channelUrl+"?channelId="+tableArray[i]._id} target="_blank">{tableArray[i].title}</a>
+                <a style={{cursor:"pointer"}} href={channelUrl} target="_blank">{tableArray[i].title}</a>
                     <span style={{display:"inline-block",width:'100%',lineHeight:"30px"}}>
                         <img style={{width:"30px"}} src={iconUrl}/>
                         <span style={{fontSize:"18px",marginLeft:"50px"}} className={tableArray[i].versionFlag == 1?"green":"red"}>{tableArray[i].version}</span>
