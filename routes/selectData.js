@@ -171,59 +171,63 @@ var searchDom = function (html, everyObj,callback) {
 
         //当父元素没class的时候  使用parIndex精准定位
         //console.log("--",s2);
-        if(parClass==""){
-
-            //console.log(s2.length);
-            $(s2).each(function (index, element) {
-                if (index == parIndex) {
-                    $(element).each(function (index, element) {
-                        var resText = "";
-                        //if(selfSelect.indexOf("#")>=0||(selfSelect&&$(selfSelect).length ==1)){
-                        //    resText = $(element).text();
-                        //}else
-
-                        //console.log(index, selfIndex);
-                        //console.log("-----",s1,$(s1));
-                        if ($(s1).length == 1) {
-                            resText = $(element).text();
-                            statusParams = checkEle(i, resText, everyObj);
-                        } else {
-                            if (index == selfIndex) {
-                                resText = $(element).text();
-                                //console.log($(element));
-                                statusParams = checkEle(i, resText, everyObj);
-                            }
-                        }
-                    });
-                }
-            })
+        console.log(selfId);
+        //当子元素存在id时则直接取值
+        if(selfId){
+            var resText = $(selfId).text();
+            statusParams = checkEle(i, resText, everyObj);
         }else{
-            console.log(s1);
-            $(s1).each(function (index, element) {
-                var resText = "";
-                //if(selfSelect.indexOf("#")>=0||(selfSelect&&$(selfSelect).length ==1)){
-                //    resText = $(element).text();
-                //}else
+            if(parClass==""){
+                //console.log(s2.length);
+                $(s2).each(function (index, element) {
+                    if (index == parIndex) {
+                        $(element).each(function (index, element) {
+                            var resText = "";
+                            //if(selfSelect.indexOf("#")>=0||(selfSelect&&$(selfSelect).length ==1)){
+                            //    resText = $(element).text();
+                            //}else
 
-                //console.log(index, selfIndex);
-                if ($(s1).length == 1) {
-                    resText = $(element).text();
-                    statusParams = checkEle(i, resText, everyObj);
-                } else {
-                    //console.log(index, selfIndex);
-                    if (index == selfIndex) {
-                        resText = $(element).text();
-                        //console.log($(element));
-                        statusParams = checkEle(i, resText, everyObj);
+                            //console.log(index, selfIndex);
+                            //console.log("-----",s1,$(s1));
+                            if ($(s1).length == 1) {
+                                resText = $(element).text();
+                                statusParams = checkEle(i, resText, everyObj);
+                            } else {
+                                if (index == selfIndex) {
+                                    resText = $(element).text();
+                                    //console.log($(element));
+                                    statusParams = checkEle(i, resText, everyObj);
+                                }
+                            }
+                        });
                     }
-                }
-            });
+                })
+            }else{
+                console.log(s1);
+                $(s1).each(function (index, element) {
+                    var resText = "";
+                    //if(selfSelect.indexOf("#")>=0||(selfSelect&&$(selfSelect).length ==1)){
+                    //    resText = $(element).text();
+                    //}else
+
+                    //console.log(index, selfIndex);
+                    if ($(s1).length == 1) {
+                        resText = $(element).text();
+                        statusParams = checkEle(i, resText, everyObj);
+                    } else {
+                        //console.log(index, selfIndex);
+                        if (index == selfIndex) {
+                            resText = $(element).text();
+                            //console.log($(element));
+                            statusParams = checkEle(i, resText, everyObj);
+                        }
+                    }
+                });
+            }
         }
     }
 
     statusParams._id = id;
-    //console.log("---",a++);
-    //
     updateChannelStatus(statusParams, function () {
         updatePageNo++;
         console.log(updatePageNo);
@@ -241,7 +245,7 @@ var searchFuc = function (obj,i) {
     }
     var url = obj[i].channelUrl;//网站的地址
     //
-    //if(url!="http://android.myapp.com/myapp/detail.htm?apkName=vStudio.Android.Camera360"){
+    //if(url!="http://www.muzhiwan.com/vStudio.Android.Camera360.html"){
     //    i++;
     //    searchFuc(obj,i);
     //    return
